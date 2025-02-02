@@ -10,17 +10,22 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[       827,         34]
-NotebookOptionsPosition[       557,         21]
-NotebookOutlinePosition[       963,         37]
-CellTagsIndexPosition[       920,         34]
+NotebookDataLength[      1117,         40]
+NotebookOptionsPosition[       729,         25]
+NotebookOutlinePosition[      1163,         42]
+CellTagsIndexPosition[      1120,         39]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell[BoxData["sdkgosdNGKIJSDNGD"], "Input",
+ CellChangeTimes->{{3.9474822858203735`*^9, 
+  3.947482286480385*^9}},ExpressionUUID->"6286dbae-7fd6-a844-a21b-\
+9004292a5999"]
 },
-WindowSize->{569.25, 624.75},
-WindowMargins->{{669, Automatic}, {177, Automatic}},
+WindowSize->{1920, 1011.75},
+WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+Magnification:>1.25 Inherited,
 FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"83cecfb7-9517-7646-b2eb-1a63f13cd3f6"
@@ -36,9 +41,8 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[554, 20, 171, 3, 35, "Input",ExpressionUUID->"6286dbae-7fd6-a844-a21b-9004292a5999"]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
