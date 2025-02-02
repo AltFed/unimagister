@@ -10,25 +10,25 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[      1171,         42]
-NotebookOptionsPosition[       788,         27]
-NotebookOutlinePosition[      1217,         44]
-CellTagsIndexPosition[      1174,         41]
+NotebookDataLength[      1228,         42]
+NotebookOptionsPosition[       842,         27]
+NotebookOutlinePosition[      1274,         44]
+CellTagsIndexPosition[      1231,         41]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell[BoxData[
- RowBox[{"ssei", " ", "gay"}]], "Input",
+ RowBox[{"ssei", " ", "gayaaaa"}]], "Input",
  CellChangeTimes->{{3.9474822858203735`*^9, 3.947482286480385*^9}, {
-  3.947482421698189*^9, 
-  3.94748242350471*^9}},ExpressionUUID->"6286dbae-7fd6-a844-a21b-\
+  3.947482421698189*^9, 3.94748242350471*^9}, {3.9474827905392284`*^9, 
+  3.9474827910502872`*^9}},ExpressionUUID->"6286dbae-7fd6-a844-a21b-\
 9004292a5999"]
 },
-WindowSize->{1920, 1011.75},
-WindowMargins->{{-6, Automatic}, {Automatic, -6}},
+WindowSize->{1908, 1005.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Magnification:>1.25 Inherited,
-FrontEndVersion->"14.1 for Mac OS X ARM (64-bit) (July 16, 2024)",
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"83cecfb7-9517-7646-b2eb-1a63f13cd3f6"
 ]
@@ -43,7 +43,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[554, 20, 230, 5, 36, "Input",ExpressionUUID->"6286dbae-7fd6-a844-a21b-9004292a5999"]
+Cell[554, 20, 284, 5, 35, "Input",ExpressionUUID->"6286dbae-7fd6-a844-a21b-9004292a5999"]
 }
 ]
 *)
