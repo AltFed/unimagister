@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     49119,       1008]
-NotebookOptionsPosition[     48400,        988]
-NotebookOutlinePosition[     48830,       1005]
-CellTagsIndexPosition[     48787,       1002]
+NotebookDataLength[     49235,       1011]
+NotebookOptionsPosition[     48515,        991]
+NotebookOutlinePosition[     48945,       1008]
+CellTagsIndexPosition[     48902,       1005]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -637,6 +637,7 @@ Cell[BoxData[{
          "img", ",", "imgBin", ",", "imgFilt", ",", "imgAdj", ",", "edges", 
           ",", "dilatedEdges", ",", "filledImage", ",", "componenti", ",", 
           "misure", ",", "candidati", ",", "candidateMasks"}], "}"}], ",", 
+        "\[IndentingNewLine]", 
         RowBox[{
          RowBox[{"img", "=", "frame"}], ";", "\[IndentingNewLine]", 
          RowBox[{"(*", 
@@ -645,6 +646,7 @@ Cell[BoxData[{
             RowBox[{"ImageResize", "[", 
              RowBox[{"img", ",", 
               RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";"}], "*)"}], 
+         "\[IndentingNewLine]", 
          RowBox[{"imgBin", "=", 
           RowBox[{"Binarize", "[", "img", "]"}]}], ";", "\[IndentingNewLine]", 
          RowBox[{"imgFilt", "=", 
@@ -982,8 +984,9 @@ Cell[BoxData[{
    3.948443103915476*^9, 3.948443155421999*^9}, 3.9484432095753384`*^9, {
    3.9484432750001774`*^9, 3.9484433046886005`*^9}, 3.9484435135785885`*^9, {
    3.948443558963911*^9, 3.9484435684517193`*^9}, {3.9484436148525047`*^9, 
-   3.9484436274530754`*^9}, {3.948444135478924*^9, 
-   3.9484441574877434`*^9}},ExpressionUUID->"5688e14a-8636-8b47-b747-\
+   3.9484436274530754`*^9}, {3.948444135478924*^9, 3.9484441574877434`*^9}, {
+   3.948444319978348*^9, 
+   3.948444333714361*^9}},ExpressionUUID->"5688e14a-8636-8b47-b747-\
 1c29302af938"]
 },
 WindowSize->{1908, 999.75},
@@ -1009,7 +1012,7 @@ Cell[576, 22, 9421, 199, 745, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-2
 Cell[10000, 223, 15171, 320, 1765, "Output",ExpressionUUID->"df641222-ec01-e84c-9695-b768fa0aa770"],
 Cell[25174, 545, 3994, 68, 142, "Output",ExpressionUUID->"3cfd0248-d20c-ee4f-9f05-e2b4d2562143"]
 }, Open  ]],
-Cell[29183, 616, 19213, 370, 988, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+Cell[29183, 616, 19328, 373, 1049, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
 }
 ]
 *)
