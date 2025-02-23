@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     43973,        908]
-NotebookOptionsPosition[     43256,        888]
-NotebookOutlinePosition[     43686,        905]
-CellTagsIndexPosition[     43643,        902]
+NotebookDataLength[     44090,        910]
+NotebookOptionsPosition[     43373,        890]
+NotebookOutlinePosition[     43803,        907]
+CellTagsIndexPosition[     43760,        904]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -58,13 +58,7 @@ Cell[BoxData[{
   RowBox[{
    RowBox[{"componenti", "=", 
     RowBox[{"MorphologicalComponents", "[", "filledImage", "]"}]}], ";"}], 
-  "\[IndentingNewLine]", 
-  RowBox[{"(*", 
-   RowBox[{"Misurazioni", ",", 
-    RowBox[{
-    "includendo", " ", "\"\<Shape\>\"", " ", "per", " ", "ottenere", " ", 
-     "contorni", " ", "e", " ", "bordi", " ", "delle", " ", "forme"}]}], 
-   "*)"}]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"misure", "=", 
   RowBox[{"ComponentMeasurements", "[", 
    RowBox[{"componenti", ",", 
@@ -213,8 +207,9 @@ Cell[BoxData[{
    3.9481735107468014`*^9, 3.948173539523144*^9}, 3.9481741851291485`*^9, 
    3.948174253626217*^9, 3.948174365932762*^9, 3.9481744499986553`*^9, {
    3.9481747027275333`*^9, 3.948174702861767*^9}, {3.9484313227556095`*^9, 
-   3.9484313230502243`*^9}},
- CellLabel->"In[1]:=",ExpressionUUID->"b15006df-4c69-454e-83e5-23a54c17c9fe"],
+   3.9484313230502243`*^9}, {3.949306950396698*^9, 
+   3.949306950835697*^9}},ExpressionUUID->"b15006df-4c69-454e-83e5-\
+23a54c17c9fe"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -735,7 +730,7 @@ Cell[BoxData[{
                     RowBox[{"(", "retto", ")"}], "/", 
                     RowBox[{"(", "rettoF", ")"}]}], ")"}], "-", "1"}], "]"}], 
                  "<", "0.2"}]}]}], "]"}], "&"}]}], "]"}]}], ";", 
-         "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", "\[IndentingNewLine]", 
          RowBox[{"candidateMasks", "=", 
           RowBox[{"Table", "[", 
            RowBox[{
@@ -749,10 +744,18 @@ Cell[BoxData[{
                 RowBox[{"2", ",", "1"}], "]"}], "]"}]}], "}"}], ",", 
             RowBox[{"{", 
              RowBox[{"cand", ",", "candidati"}], "}"}]}], "]"}]}], ";", 
-         RowBox[{"(*", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
           RowBox[{
-          "Modified", " ", "to", " ", "store", " ", "both", " ", "shape", " ",
-            "and", " ", "centroid"}], "*)"}], 
+           RowBox[{"cand", "[", 
+            RowBox[{"[", 
+             RowBox[{"2", ",", "4"}], "]"}], "]"}], " ", "shape", 
+           "\[IndentingNewLine]", 
+           RowBox[{"cand", "[", 
+            RowBox[{"[", 
+             RowBox[{"2", ",", "1"}], "]"}], "]"}], " ", "centroid", 
+           "\[IndentingNewLine]", "Mi", " ", "salvo", " ", "shape", " ", "e", 
+           " ", "centroid"}], "*)"}], 
          RowBox[{"Show", "[", 
           RowBox[{"img", ",", 
            RowBox[{"Graphics", "[", 
@@ -767,11 +770,6 @@ Cell[BoxData[{
                  RowBox[{"candidateMasks", "[", 
                   RowBox[{"[", 
                    RowBox[{"i", ",", "2"}], "]"}], "]"}], ",", "Center", ",", 
-                 RowBox[{"(*", 
-                  RowBox[{
-                  "Modified", " ", "Inset", " ", "to", " ", "use", " ", 
-                   "Centroid", " ", "and", " ", "Center", " ", "alignment"}], 
-                  "*)"}], 
                  RowBox[{"ImageDimensions", "[", 
                   RowBox[{"candidateMasks", "[", 
                    RowBox[{"[", 
@@ -780,9 +778,12 @@ Cell[BoxData[{
               RowBox[{"{", 
                RowBox[{"i", ",", 
                 RowBox[{"Length", "[", "candidateMasks", "]"}]}], "}"}]}], 
-             "]"}], "]"}]}], "]"}]}]}], " ", 
+             "]"}], "]"}]}], "]"}]}]}], " ", "\[IndentingNewLine]", 
        RowBox[{"(*", 
-        RowBox[{"Crucial", " ", "Change"}], "*)"}], "]"}], ",", 
+        RowBox[{
+        "Allineo", " ", "il", " ", "centroid", " ", "col", " ", "center", " ", 
+         RowBox[{"dell", "'"}], "oggetto"}], "*)"}], "\[IndentingNewLine]", 
+       "]"}], ",", 
       RowBox[{"{", 
        RowBox[{"frame", ",", "frames"}], "}"}]}], "]"}]}], ";"}], 
   "\n"}], "\[IndentingNewLine]", 
@@ -883,7 +884,8 @@ Cell[BoxData[{
    3.948437431902891*^9, 3.9484375502967987`*^9, 3.948437871933779*^9, {
    3.9484381885357666`*^9, 3.948438193546442*^9}, {3.948438286472868*^9, 
    3.948438300145836*^9}, 3.948438340920727*^9, 3.948439197957651*^9, 
-   3.9484394655392838`*^9},ExpressionUUID->"5688e14a-8636-8b47-b747-\
+   3.9484394655392838`*^9, {3.9493069575076504`*^9, 
+   3.9493070449656696`*^9}},ExpressionUUID->"5688e14a-8636-8b47-b747-\
 1c29302af938"]
 },
 WindowSize->{1908, 999.75},
@@ -905,11 +907,11 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 9096, 194, 698, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-23a54c17c9fe"],
-Cell[9675, 218, 14941, 316, 1654, "Output",ExpressionUUID->"82de4416-cc2f-f747-a71e-572e33c37c88"],
-Cell[24619, 536, 3611, 61, 60, "Output",ExpressionUUID->"b8a2500a-d17a-9b4c-b3a6-f7ccd902588b"]
+Cell[576, 22, 8902, 189, 698, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-23a54c17c9fe"],
+Cell[9481, 213, 14941, 316, 1654, "Output",ExpressionUUID->"82de4416-cc2f-f747-a71e-572e33c37c88"],
+Cell[24425, 531, 3611, 61, 60, "Output",ExpressionUUID->"b8a2500a-d17a-9b4c-b3a6-f7ccd902588b"]
 }, Open  ]],
-Cell[28245, 600, 15007, 286, 670, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+Cell[28051, 595, 15318, 293, 755, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
 }
 ]
 *)
