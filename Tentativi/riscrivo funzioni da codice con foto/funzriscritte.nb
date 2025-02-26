@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     61678,       1204]
-NotebookOptionsPosition[     60410,       1175]
-NotebookOutlinePosition[     60840,       1192]
-CellTagsIndexPosition[     60797,       1189]
+NotebookDataLength[     61710,       1205]
+NotebookOptionsPosition[     60442,       1176]
+NotebookOutlinePosition[     60872,       1193]
+CellTagsIndexPosition[     60829,       1190]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -349,7 +349,7 @@ Cell[BoxData[{
        "\[IndentingNewLine]", 
        RowBox[{"Image", "[", 
         RowBox[{"result", ",", "\"\<Bit\>\""}], "]"}]}]}], 
-     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+     "\[IndentingNewLine]", "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"Esempio", " ", 
     RowBox[{"d", "'"}], "uso", " ", "con", " ", 
@@ -554,7 +554,7 @@ Cell[BoxData[
   RowBox[{
    RowBox[{
     RowBox[{
-     RowBox[{"manualFillingTransform", "[", "img_Image", "]"}], ":=", 
+     RowBox[{"simpleFillingTransform", "[", "img_Image", "]"}], ":=", 
      RowBox[{"Module", "[", 
       RowBox[{
        RowBox[{"{", 
@@ -685,7 +685,7 @@ Cell[BoxData[
           ",", 
           RowBox[{"Colorize", "[", "holeMask", "]"}], ",", 
           RowBox[{"Colorize", "[", "data", "]"}]}], "}"}]}]}], "]"}]}], ";"}],
-    "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+    "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"SetDirectory", "[", 
      RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
@@ -696,8 +696,8 @@ Cell[BoxData[
     RowBox[{"img", "=", 
      RowBox[{"ImageResize", "[", 
       RowBox[{"img", ",", 
-       RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
+       RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"imgBin", "=", 
      RowBox[{"Binarize", "[", "img", "]"}]}], ";"}], "\n", 
@@ -715,8 +715,8 @@ Cell[BoxData[
     RowBox[{"dilatedEdges", "=", 
      RowBox[{"Dilation", "[", 
       RowBox[{"edges", ",", 
-       RowBox[{"DiskMatrix", "[", "1", "]"}]}], "]"}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
+       RowBox[{"DiskMatrix", "[", "1", "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{"filledImage", "=", 
     RowBox[{"manualFillingTransform", "[", "dilatedEdges", "]"}]}], 
    "\n"}]}]], "Input",
@@ -740,9 +740,10 @@ Cell[BoxData[
    3.9493812735473194`*^9, 3.949381275407261*^9}, {3.9493813724496613`*^9, 
    3.9493814928901386`*^9}, {3.9493815651244297`*^9, 
    3.9493815817881126`*^9}, {3.9493816297017155`*^9, 
-   3.9493816299570713`*^9}, {3.9493820639094887`*^9, 3.949382084766344*^9}},
- CellLabel->
-  "In[287]:=",ExpressionUUID->"55a5e8ca-9f16-4a93-9918-c24e1c7e6652"],
+   3.9493816299570713`*^9}, {3.9493820639094887`*^9, 3.949382084766344*^9}, {
+   3.9495524545295277`*^9, 
+   3.9495524582102757`*^9}},ExpressionUUID->"55a5e8ca-9f16-4a93-9918-\
+c24e1c7e6652"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -1200,12 +1201,12 @@ Cell[12303, 253, 6252, 146, 928, "Input",ExpressionUUID->"dff829f8-35e2-4f43-ad0
 Cell[18558, 401, 8586, 145, 1665, "Output",ExpressionUUID->"90030d4e-3659-3a45-b8e6-d531da7ad54c"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[27181, 551, 8663, 193, 1171, "Input",ExpressionUUID->"55a5e8ca-9f16-4a93-9918-c24e1c7e6652"],
-Cell[35847, 746, 23893, 407, 384, "Output",ExpressionUUID->"02001c3c-6dac-7d44-ae4f-1813a08f30f5"]
+Cell[27181, 551, 8695, 194, 1171, "Input",ExpressionUUID->"55a5e8ca-9f16-4a93-9918-c24e1c7e6652"],
+Cell[35879, 747, 23893, 407, 372, "Output",ExpressionUUID->"02001c3c-6dac-7d44-ae4f-1813a08f30f5"]
 }, Open  ]],
-Cell[59755, 1156, 130, 3, 45, "Input",ExpressionUUID->"31b31f08-19d6-3741-ad27-82e28d2653a3"],
-Cell[59888, 1161, 149, 3, 75, "Input",ExpressionUUID->"c32fd680-1993-6247-90b5-81e22bc434db"],
-Cell[60040, 1166, 366, 7, 197, "Input",ExpressionUUID->"dd22ca08-21f8-7645-81d9-6320bc256020"]
+Cell[59787, 1157, 130, 3, 45, "Input",ExpressionUUID->"31b31f08-19d6-3741-ad27-82e28d2653a3"],
+Cell[59920, 1162, 149, 3, 75, "Input",ExpressionUUID->"c32fd680-1993-6247-90b5-81e22bc434db"],
+Cell[60072, 1167, 366, 7, 197, "Input",ExpressionUUID->"dd22ca08-21f8-7645-81d9-6320bc256020"]
 }
 ]
 *)
