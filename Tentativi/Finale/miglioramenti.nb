@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     50116,       1021]
-NotebookOptionsPosition[     49397,       1001]
-NotebookOutlinePosition[     49827,       1018]
-CellTagsIndexPosition[     49784,       1015]
+NotebookDataLength[     51112,       1040]
+NotebookOptionsPosition[     50399,       1020]
+NotebookOutlinePosition[     50823,       1037]
+CellTagsIndexPosition[     50780,       1034]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -647,6 +647,7 @@ Cell[BoxData[{
          RowBox[{"imgFilt", "=", 
           RowBox[{"GaussianFilter", "[", 
            RowBox[{"imgBin", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+         
          RowBox[{"imgAdj", "=", 
           RowBox[{"ImageAdjust", "[", "imgFilt", "]"}]}], ";", 
          "\[IndentingNewLine]", 
@@ -752,7 +753,7 @@ Cell[BoxData[{
          RowBox[{"candidateMasks", "=", 
           RowBox[{"Table", "[", 
            RowBox[{
-            RowBox[{"{", "\[IndentingNewLine]", 
+            RowBox[{"{", "    ", "\[IndentingNewLine]", 
              RowBox[{
               RowBox[{"ColorReplace", "[", 
                RowBox[{
@@ -777,13 +778,25 @@ Cell[BoxData[{
                 RowBox[{"2", ",", "2"}], "]"}], "]"}]}], "}"}], ",", 
             RowBox[{"{", 
              RowBox[{"cand", ",", "candidati"}], "}"}]}], "]"}]}], ";", 
-         "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", 
+          RowBox[{
+          "maschera", " ", "di", " ", "candidati", " ", "in", " ", "cui", " ",
+            "modifico", " ", "colore", " ", "della", " ", "shape", " ", "e", 
+           " ", "seleziono", " ", "altre", " ", "misure"}], "*)"}], 
+         "\[IndentingNewLine]", 
          RowBox[{"Show", "[", 
           RowBox[{"img", ",", 
            RowBox[{"Graphics", "[", 
             RowBox[{"Table", "[", 
              RowBox[{
               RowBox[{"{", "\[IndentingNewLine]", 
+               RowBox[{"(*", 
+                RowBox[{"rappresenta", " ", 
+                 RowBox[{"l", "'"}], "oggetto", " ", "shape", " ", "con", " ",
+                  "centro", " ", "in", " ", "Center", " ", "del", " ", 
+                 "grafico", " ", "e", " ", "dimensioni", " ", "della", " ", 
+                 "shape"}], "*)"}], "\[IndentingNewLine]", 
                RowBox[{
                 RowBox[{"{", 
                  RowBox[{"Red", ",", 
@@ -799,7 +812,7 @@ Cell[BoxData[{
                     RowBox[{"candidateMasks", "[", 
                     RowBox[{"[", 
                     RowBox[{"i", ",", "1"}], "]"}], "]"}], "]"}]}], "]"}]}], 
-                 "}"}], ",", 
+                 "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
                 RowBox[{"{", 
                  RowBox[{"Black", ",", "Large", ",", 
                   RowBox[{"Text", "[", 
@@ -812,7 +825,10 @@ Cell[BoxData[{
                     RowBox[{"[", 
                     RowBox[{"i", ",", "4"}], "]"}], "]"}], "[", 
                     RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], "}"}], ",", 
-                "\[IndentingNewLine]", 
+                " ", 
+                RowBox[{"(*", 
+                 RowBox[{"testo", " ", "a", " ", "schermo"}], " ", "*)"}], 
+                "\[IndentingNewLine]", "\[IndentingNewLine]", 
                 RowBox[{"{", 
                  RowBox[{"Blue", ",", 
                   RowBox[{"PointSize", "[", "0.02", "]"}], ",", 
@@ -821,7 +837,8 @@ Cell[BoxData[{
                     RowBox[{"[", 
                     RowBox[{"i", ",", "2"}], "]"}], "]"}], "]"}]}], "}"}], 
                 ",", 
-                RowBox[{"(*", "CENTROIDE", "*)"}], 
+                RowBox[{"(*", "CENTROIDE", "*)"}], "\[IndentingNewLine]", 
+                "\[IndentingNewLine]", 
                 RowBox[{"{", 
                  RowBox[{"Green", ",", 
                   RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
@@ -883,7 +900,7 @@ Cell[BoxData[{
              "]"}], "]"}]}], "]"}]}]}], "]"}], ",", 
       RowBox[{"{", 
        RowBox[{"frame", ",", "frames"}], "}"}]}], "]"}]}], ";"}], 
-  "\n"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{"\"\<processed_video.mp4\>\"", ",", "processedFrames", ",", 
@@ -996,13 +1013,15 @@ Cell[BoxData[{
    3.9484436274530754`*^9}, {3.948444135478924*^9, 3.9484441574877434`*^9}, {
    3.948444319978348*^9, 3.948444333714361*^9}, {3.9493085260273914`*^9, 
    3.9493085367548504`*^9}, {3.9493087109917793`*^9, 
-   3.9493087627591953`*^9}, {3.9493088844901752`*^9, 3.949308899131214*^9}},
- CellLabel->"In[50]:=",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+   3.9493087627591953`*^9}, {3.9493088844901752`*^9, 3.949308899131214*^9}, {
+   3.949989179843165*^9, 3.9499892734105053`*^9}, {3.94998930365175*^9, 
+   3.9499893824092903`*^9}},ExpressionUUID->"5688e14a-8636-8b47-b747-\
+1c29302af938"]
 },
-WindowSize->{1908, 999.75},
+WindowSize->{Full, Full},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
-Magnification:>1.6 Inherited,
-FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+Magnification:>1.25 Inherited,
+FrontEndVersion->"14.1 for Mac OS X ARM (64-bit) (July 16, 2024)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"6b934cfe-6dc3-fc4e-8073-891cda943840"
 ]
@@ -1018,11 +1037,11 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[CellGroupData[{
-Cell[576, 22, 9471, 199, 745, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-23a54c17c9fe"],
-Cell[10050, 223, 15215, 320, 1765, "Output",ExpressionUUID->"3d43f857-d307-ee46-a954-63360e0173c4"],
-Cell[25268, 545, 3883, 65, 64, "Output",ExpressionUUID->"c36238ae-0de6-284c-b7ef-2824fdbd2b19"]
+Cell[576, 22, 9471, 199, 623, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-23a54c17c9fe"],
+Cell[10050, 223, 15215, 320, 1384, "Output",ExpressionUUID->"3d43f857-d307-ee46-a954-63360e0173c4"],
+Cell[25268, 545, 3883, 65, 50, "Output",ExpressionUUID->"c36238ae-0de6-284c-b7ef-2824fdbd2b19"]
 }, Open  ]],
-Cell[29166, 613, 20227, 386, 1189, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+Cell[29166, 613, 21229, 405, 1134, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
 }
 ]
 *)
