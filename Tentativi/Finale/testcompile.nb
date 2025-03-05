@@ -1,0 +1,2532 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    112209,       2522]
+NotebookOptionsPosition[    102471,       2407]
+NotebookOutlinePosition[    102872,       2423]
+CellTagsIndexPosition[    102829,       2420]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"matheFunc", "[", "foto_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "img", ",", "imgBin", ",", "imgFilt", ",", "imgEnhanced", ",", "edges",
+         ",", "dilatedEdges", ",", "filledImage", ",", "componenti", ",", 
+        "misure"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"SetDirectory", "[", 
+        RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"img", "=", 
+        RowBox[{"Import", "[", "foto", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"img", "=", 
+        RowBox[{"ImageResize", "[", 
+         RowBox[{"img", ",", 
+          RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"imgBin", "=", 
+        RowBox[{"Binarize", "[", "img", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"imgFilt", "=", 
+        RowBox[{"GaussianFilter", "[", 
+         RowBox[{"imgBin", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"imgEnhanced", "=", 
+        RowBox[{"ImageAdjust", "[", "imgFilt", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"edges", "=", 
+        RowBox[{"EdgeDetect", "[", "imgEnhanced", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"dilatedEdges", "=", 
+        RowBox[{"Dilation", "[", 
+         RowBox[{"edges", ",", 
+          RowBox[{"DiskMatrix", "[", "1", "]"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"filledImage", "=", 
+        RowBox[{"FillingTransform", "[", "dilatedEdges", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"componenti", "=", 
+        RowBox[{"MorphologicalComponents", "[", "filledImage", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"misure", "=", 
+        RowBox[{"ComponentMeasurements", "[", 
+         RowBox[{"componenti", ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "\"\<Centroid\>\"", ",", "\"\<BoundingBox\>\"", ",", 
+            "\"\<Orientation\>\"", ",", "\"\<Shape\>\"", ",", "\"\<Area\>\"", 
+            ",", "\"\<PerimeterLength\>\"", ",", "\"\<BoundingBoxArea\>\"", 
+            ",", "\"\<Eccentricity\>\"", ",", "\"\<Circularity\>\"", ",", 
+            "\"\<Rectangularity\>\""}], "}"}]}], "]"}]}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simpleFunc", "[", "foto_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "img", ",", "imgBin", ",", "imgFilt", ",", "imgEnhanced", ",", "edges",
+         ",", "dilatedEdges", ",", "filledImage", ",", "componenti", ",", 
+        "misure"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"SetDirectory", "[", 
+        RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"img", "=", 
+        RowBox[{"Import", "[", "foto", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"img", "=", 
+        RowBox[{"ImageResize", "[", 
+         RowBox[{"img", ",", 
+          RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"imgBin", "=", 
+        RowBox[{"simpleBinarize", "[", "img", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"imgFilt", "=", 
+        RowBox[{"GaussianFilter", "[", 
+         RowBox[{"imgBin", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"imgEnhanced", "=", 
+        RowBox[{"ImageAdjust", "[", "imgFilt", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"edges", "=", 
+        RowBox[{"EdgeDetect", "[", "imgEnhanced", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"dilatedEdges", "=", 
+        RowBox[{"simpleDilation", "[", 
+         RowBox[{"edges", ",", 
+          RowBox[{"DiskMatrix", "[", "1", "]"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"filledImage", "=", 
+        RowBox[{"simpleFillingTransform", "[", "dilatedEdges", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"componenti", "=", 
+        RowBox[{"MorphologicalComponents", "[", "filledImage", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"misure", "=", 
+        RowBox[{"ComponentMeasurements", "[", 
+         RowBox[{"componenti", ",", 
+          RowBox[{"{", 
+           RowBox[{
+           "\"\<Centroid\>\"", ",", "\"\<BoundingBox\>\"", ",", 
+            "\"\<Orientation\>\"", ",", "\"\<Shape\>\"", ",", "\"\<Area\>\"", 
+            ",", "\"\<PerimeterLength\>\"", ",", "\"\<BoundingBoxArea\>\"", 
+            ",", "\"\<Eccentricity\>\"", ",", "\"\<Circularity\>\"", ",", 
+            "\"\<Rectangularity\>\""}], "}"}]}], "]"}]}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simpleBinarize", "[", "img_Image", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "gray", ",", "data", ",", "thresh", ",", "binaryData", ",", 
+        "dataElement"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"gray", "=", 
+        RowBox[{"ColorConvert", "[", 
+         RowBox[{"img", ",", "\"\<Grayscale\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"data", "=", 
+        RowBox[{"ImageData", "[", "gray", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"thresh", "=", 
+        RowBox[{"Mean", "[", 
+         RowBox[{"Flatten", "[", "data", "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Length", "[", 
+           RowBox[{"Dimensions", "[", "data", "]"}], "]"}], "==", "3"}], ",", 
+         RowBox[{"dataElement", "=", 
+          RowBox[{
+           RowBox[{"#", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "&"}]}], ",", 
+         RowBox[{"dataElement", "=", 
+          RowBox[{"#", "&"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"binaryData", "=", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"dataElement", "[", "#", "]"}], ">", "thresh"}], ",", 
+             "1", ",", "0"}], "]"}], "&"}], ",", "data", ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Image", "[", 
+        RowBox[{"binaryData", ",", "\"\<Bit\>\""}], "]"}]}]}], "]"}]}], ";"}],
+   "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simpleDilation", "[", 
+     RowBox[{"img_Image", ",", 
+      RowBox[{"se_", "?", "MatrixQ"}]}], "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "data", ",", "dims", ",", "seDims", ",", "offset", ",", "padded", ",", 
+        "result", ",", "window"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"data", "=", 
+        RowBox[{"ImageData", "[", "img", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"dims", "=", 
+        RowBox[{"Dimensions", "[", "data", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"seDims", "=", 
+        RowBox[{"Dimensions", "[", "se", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"offset", "=", 
+        RowBox[{"Floor", "[", 
+         RowBox[{"seDims", "/", "2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"padded", "=", 
+        RowBox[{"ArrayPad", "[", 
+         RowBox[{"data", ",", "offset", ",", "0"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"result", "=", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"window", "=", 
+            RowBox[{"padded", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"i", ";;", 
+                RowBox[{"i", "+", 
+                 RowBox[{"seDims", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}], "-", "1"}]}], ",", 
+               RowBox[{"j", ";;", 
+                RowBox[{"j", "+", 
+                 RowBox[{"seDims", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}], "-", "1"}]}]}], "]"}], 
+             "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Max", "[", 
+               RowBox[{"window", "*", "se"}], "]"}], "==", "1"}], ",", "1", 
+             ",", "0"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1", ",", 
+            RowBox[{"dims", "[", 
+             RowBox[{"[", "1", "]"}], "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"j", ",", "1", ",", 
+            RowBox[{"dims", "[", 
+             RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Image", "[", 
+        RowBox[{"result", ",", "\"\<Bit\>\""}], "]"}]}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"simpleFillingTransform", "[", "img_Image", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+       "data", ",", "dims", ",", "compImg", ",", "binImg", ",", "comp", ",", 
+        "borderIDs", ",", "holeMask", ",", "filledData"}], "}"}], ",", 
+      RowBox[{
+       RowBox[{"data", "=", 
+        RowBox[{"ImageData", "[", "img", "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"dims", "=", 
+        RowBox[{"Dimensions", "[", "data", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"compImg", "=", 
+        RowBox[{"1", "-", "data"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"binImg", "=", 
+        RowBox[{"Binarize", "[", 
+         RowBox[{"Image", "[", "compImg", "]"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"comp", "=", 
+        RowBox[{"MorphologicalComponents", "[", "binImg", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"borderIDs", "=", 
+        RowBox[{"DeleteDuplicates", "[", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"comp", "[", 
+             RowBox[{"[", 
+              RowBox[{"1", ",", "All"}], "]"}], "]"}], ",", 
+            RowBox[{"comp", "[", 
+             RowBox[{"[", 
+              RowBox[{
+               RowBox[{"dims", "[", 
+                RowBox[{"[", "1", "]"}], "]"}], ",", "All"}], "]"}], "]"}], 
+            ",", 
+            RowBox[{"comp", "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", 
+            RowBox[{"comp", "[", 
+             RowBox[{"[", 
+              RowBox[{"All", ",", 
+               RowBox[{"dims", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "]"}]}], "}"}], 
+          "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"holeMask", "=", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"#", "!=", "0"}], "&&", 
+              RowBox[{"Not", "[", 
+               RowBox[{"MemberQ", "[", 
+                RowBox[{"borderIDs", ",", "#"}], "]"}], "]"}]}], ",", "1", 
+             ",", "0"}], "]"}], "&"}], ",", "comp", ",", 
+          RowBox[{"{", "2", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"filledData", "=", 
+        RowBox[{"MapThread", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Max", "[", 
+            RowBox[{"#1", ",", "#2"}], "]"}], "&"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"data", ",", "holeMask"}], "}"}], ",", "2"}], "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"Image", "[", 
+        RowBox[{"filledData", ",", "\"\<Bit\>\""}], "]"}]}]}], "]"}]}], ";"}],
+   "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"compiledSimpleFunc", "=", 
+    RowBox[{"Compile", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{"foto", ",", "_String"}], "}"}], "}"}], ",", 
+      RowBox[{"Module", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+         "img", ",", "imgBin", ",", "imgFilt", ",", "imgEnhanced", ",", 
+          "edges", ",", "dilatedEdges", ",", "filledImage", ",", "componenti",
+           ",", "misure"}], "}"}], ",", 
+        RowBox[{
+         RowBox[{"SetDirectory", "[", 
+          RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"img", "=", 
+          RowBox[{"Import", "[", "foto", "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"img", "=", 
+          RowBox[{"ImageResize", "[", 
+           RowBox[{"img", ",", 
+            RowBox[{"Scaled", "[", "0.5", "]"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"imgBin", "=", 
+          RowBox[{"simpleBinarize", "[", "img", "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"imgFilt", "=", 
+          RowBox[{"GaussianFilter", "[", 
+           RowBox[{"imgBin", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"imgEnhanced", "=", 
+          RowBox[{"ImageAdjust", "[", "imgFilt", "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"edges", "=", 
+          RowBox[{"EdgeDetect", "[", "imgEnhanced", "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"dilatedEdges", "=", 
+          RowBox[{"simpleDilation", "[", 
+           RowBox[{"edges", ",", 
+            RowBox[{"DiskMatrix", "[", "1", "]"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"filledImage", "=", 
+          RowBox[{"simpleFillingTransform", "[", "dilatedEdges", "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"componenti", "=", 
+          RowBox[{"MorphologicalComponents", "[", "filledImage", "]"}]}], ";",
+          "\[IndentingNewLine]", 
+         RowBox[{"misure", "=", 
+          RowBox[{"ComponentMeasurements", "[", 
+           RowBox[{"componenti", ",", 
+            RowBox[{"{", 
+             RowBox[{
+             "\"\<Centroid\>\"", ",", "\"\<BoundingBox\>\"", ",", 
+              "\"\<Orientation\>\"", ",", "\"\<Shape\>\"", ",", 
+              "\"\<Area\>\"", ",", "\"\<PerimeterLength\>\"", ",", 
+              "\"\<BoundingBoxArea\>\"", ",", "\"\<Eccentricity\>\"", ",", 
+              "\"\<Circularity\>\"", ",", "\"\<Rectangularity\>\""}], "}"}]}],
+            "]"}]}]}]}], "]"}], ",", 
+      RowBox[{"CompilationTarget", "->", "\"\<C\>\""}], ",", 
+      RowBox[{"RuntimeAttributes", "->", 
+       RowBox[{"{", "Listable", "}"}]}], ",", 
+      RowBox[{"Parallelization", "->", "True"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"NotebookDirectory", "[", "]"}], "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"foto", "=", "\"\<foto5.jpg\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"matheTimes", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"simpleTimes", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"compiledSimpleTimes", "=", 
+    RowBox[{"{", "}"}]}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Mathe starting\>\"", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"tot", "=", 
+   RowBox[{"AbsoluteTime", "[", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"i", "=", "0"}], ",", 
+    RowBox[{"i", "<", "10"}], ",", 
+    RowBox[{"i", "++"}], ",", 
+    RowBox[{
+     RowBox[{"time", "=", 
+      RowBox[{"AbsoluteTime", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"matheFunc", "[", "foto", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"timer", "=", 
+      RowBox[{
+       RowBox[{"AbsoluteTime", "[", "]"}], "-", "time"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"matheTimes", ",", "timer"}], "]"}], ";"}]}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"totm", "=", 
+    RowBox[{
+     RowBox[{"AbsoluteTime", "[", "]"}], "-", "tot"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<Prestazioni Mathe: \\n Media per singolo frame: \>\"", ",", 
+     RowBox[{"Mean", "[", "matheTimes", "]"}], ",", 
+     "\"\<\\n Tempo massimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Max", "[", "matheTimes", "]"}], ",", 
+     "\"\<\\n Tempo minimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Min", "[", "matheTimes", "]"}], ",", 
+     "\"\<\\n Tempo totale per 10 frame:  \>\"", ",", "totm"}], "]"}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Simple starting\>\"", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"tot", "=", 
+   RowBox[{"AbsoluteTime", "[", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"i", "=", "0"}], ",", 
+    RowBox[{"i", "<", "10"}], ",", 
+    RowBox[{"i", "++"}], ",", 
+    RowBox[{
+     RowBox[{"times", "=", 
+      RowBox[{"AbsoluteTime", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"simpleFunc", "[", "foto", "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"timers", "=", 
+      RowBox[{
+       RowBox[{"AbsoluteTime", "[", "]"}], "-", "times"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"simpleTimes", ",", "timers"}], "]"}], ";"}]}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"tots", "=", 
+    RowBox[{
+     RowBox[{"AbsoluteTime", "[", "]"}], "-", "tot"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{"\"\<Prestazioni simple: \\n Media per singolo frame: \>\"", ",", 
+     RowBox[{"Mean", "[", "simpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo massimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Max", "[", "simpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo minimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Min", "[", "simpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo totale per 10 frame:  \>\"", ",", "tots"}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Print", "[", "\"\<Compiled Simple starting\>\"", "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"tot", "=", 
+   RowBox[{"AbsoluteTime", "[", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"For", "[", 
+   RowBox[{
+    RowBox[{"i", "=", "0"}], ",", 
+    RowBox[{"i", "<", "10"}], ",", 
+    RowBox[{"i", "++"}], ",", 
+    RowBox[{
+     RowBox[{"timec", "=", 
+      RowBox[{"AbsoluteTime", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"compiledSimpleFunc", "[", "foto", "]"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"timerc", "=", 
+      RowBox[{
+       RowBox[{"AbsoluteTime", "[", "]"}], "-", "timec"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"AppendTo", "[", 
+      RowBox[{"compiledSimpleTimes", ",", "timerc"}], "]"}], ";"}]}], "]"}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"totc", "=", 
+    RowBox[{
+     RowBox[{"AbsoluteTime", "[", "]"}], "-", "tot"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Print", "[", 
+    RowBox[{
+    "\"\<Prestazioni compiled simple: \\n Media per singolo frame: \>\"", ",", 
+     RowBox[{"Mean", "[", "compiledSimpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo massimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Max", "[", "compiledSimpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo minimo per singolo frame:  \>\"", ",", 
+     RowBox[{"Min", "[", "compiledSimpleTimes", "]"}], ",", 
+     "\"\<\\n Tempo totale per 10 frame:  \>\"", ",", "totc"}], "]"}], ";"}], 
+  "\[IndentingNewLine]", "\n"}], "\[IndentingNewLine]", 
+ RowBox[{"ListPlot", "[", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"matheTimes", ",", "simpleTimes", ",", "compiledSimpleTimes"}], 
+    "}"}], ",", 
+   RowBox[{"PlotLegends", "->", 
+    RowBox[{"{", 
+     RowBox[{
+     "\"\<matheTimes\>\"", ",", "\"\<simpleTimes\>\"", ",", 
+      "\"\<compiledSimpleTimes\>\""}], "}"}]}], ",", 
+   RowBox[{"PlotStyle", "->", 
+    RowBox[{"{", 
+     RowBox[{"Red", ",", "Blue", ",", "Green"}], "}"}]}], ",", 
+   RowBox[{
+   "PlotLabel", "->", 
+    "\"\<Confronto tra matheTimes, simpleTimes e compiledSimpleTimes\>\""}], 
+   ",", 
+   RowBox[{"PlotRange", "->", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"Automatic", ",", "Automatic"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "Automatic"}], "}"}]}], "}"}]}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.9501995093967495`*^9, 3.9501995093967495`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"e929ce42-aef7-bd4b-861f-d057bca1aa73"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Compile", "ctyp2", 
+   "\"Invalid type or rank specification in \\!\\(\\*RowBox[{\\\"{\\\", \
+RowBox[{\\\"foto\\\", \\\",\\\", \\\"_String\\\"}], \\\"}\\\"}]\\).\"", 2, 9, 
+   4, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199510725727*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"5342891d-0e97-c549-9da3-8e6e90532905"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 10, 5, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199510758957*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"a85eacca-eca0-2f40-b39f-ffbbf911c6d3"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 10, 6, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995107846775`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"f5fffe94-115e-304b-a742-7734bd9a25c5"],
+
+Cell[BoxData["\<\"Mathe starting\"\>"], "Print",
+ CellChangeTimes->{3.9501995108220997`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"8ce46b29-4db7-ee41-9702-9d5d6ee0e507"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 17, 7, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995108441753`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"badb6ced-e2b7-7c46-b140-b2e631d8b3f7"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 17, 8, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995108506985`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"dd5e719e-5a04-c942-86d4-7f95536f5150"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 17, 9, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511109709*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"93c9fd56-ad7d-094e-8324-0cc65381e47e"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 17, 10, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511137989*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4ce9188b-5c36-484c-bfd6-f2588cf156f2"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Binarize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \
+\\\",\\\", RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\
+\"]\\\"}]\\).\"", 2, 17, 11, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995111426277`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"b1155773-066e-944a-a907-c3edb588b16f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 17, 12, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995111476536`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"b472b809-7223-634c-b1ae-e9bc088ab882"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", RowBox[{\\\"ImageResize\\\", \
+\\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", RowBox[{\\\"Scaled\\\", \
+\\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 13, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511153658*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4f658a33-f2d7-304e-a142-50809db839d1"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 
+   14, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511159193*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"5e147914-aa2b-e149-aad2-2a163decbe65"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Dilation", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\) \
+is neither a rectangular array nor an image.\"", 2, 17, 15, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511195669*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"5c0330ea-92bb-fb4c-a023-0bc3c74f0824"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "FillingTransform", "imginv", 
+   "\"Expecting an image or graphics instead of \\!\\(\\*RowBox[{\\\"Dilation\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}]\\).\"", 2, 17, 16, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.95019951120059*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"11b26f68-db89-9e43-9553-b24352115223"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 17, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511207613*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"f53f517d-37f1-e547-b004-822e47d99c2a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 18, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995112404156`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d612196f-dc67-6944-9f80-6bdda852f149"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 17, 19, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511275732*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"a3d2274c-fc3c-9440-8c91-1576581a2c0e"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 17, 20, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511289213*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"262a503a-5191-8340-9574-439aaa6fe2bd"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 17, 21, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511317442*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"79d55629-2fe7-4f47-87aa-df73f8f2e113"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 17, 22, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.95019951134861*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"1555dc8b-7986-ee49-abdd-abb0f3d1fd69"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Binarize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \
+\\\",\\\", RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\
+\"]\\\"}]\\).\"", 2, 17, 23, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995113796177`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"1c9c513f-1e24-f147-bf12-a08c92bcac40"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 17, 24, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511408966*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"8dbdec00-2c9e-d246-9abd-eaf97fe4bc9c"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", RowBox[{\\\"ImageResize\\\", \
+\\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", RowBox[{\\\"Scaled\\\", \
+\\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 25, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995114396935`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"22fa5ca6-f080-4445-91c4-941166a703d7"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 
+   26, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995114697247`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"eb9b44ee-4617-9b4f-9661-fe9b95629152"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Dilation", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\) \
+is neither a rectangular array nor an image.\"", 2, 17, 27, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995115009155`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"ff188842-b34c-ef45-9cea-721c72e7d24e"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "FillingTransform", "imginv", 
+   "\"Expecting an image or graphics instead of \\!\\(\\*RowBox[{\\\"Dilation\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}]\\).\"", 2, 17, 28, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511531948*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"507e7502-94bb-0a4c-8c2a-ba4f5ef80220"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 29, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511561884*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"196a30b4-089a-284f-9c59-7d0797ef707b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 30, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995115918484`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"7df49206-e4f7-b74b-886a-746e0d02ab50"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 17, 31, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995116281643`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"5a70e035-e30b-7143-9b6c-eb6edf481592"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"NotebookDirectory\\\", \
+\\\"::\\\", \\\"nosv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 17, 32, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995116548195`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"92e60ea1-8803-9341-b4e6-6546ff0dbb1a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 17, 33, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995116859207`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"a473a03d-34fe-5140-b31f-83dbc46a2dbc"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"SetDirectory\\\", \
+\\\"::\\\", \\\"badfile\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 17, 34, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995117148914`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"23a6d4af-d2ff-944c-870d-f9c16c4b4396"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 17, 35, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511745716*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"959c3a05-79ec-d743-b567-b4dd32296ff4"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Import\\\", \\\"::\\\", \
+\\\"nffil\\\"}], \\\"MessageName\\\"]\\) will be suppressed during this \
+calculation.\"", 2, 17, 36, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511777437*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"01052b45-dc5c-a24e-a2a5-a8ed7d7d569a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 17, 37, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511808813*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"7a07d14b-3157-7f4f-b3e2-e665be25f18d"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ImageResize\\\", \\\"::\
+\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 17, 38, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995118393917`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d4ed4bd4-df83-354d-b7be-474f16e08d39"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Binarize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \
+\\\",\\\", RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\
+\"]\\\"}]\\).\"", 2, 17, 39, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511871475*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"ab8de413-c403-3049-bb3b-ebb5306dde8a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Binarize\\\", \
+\\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 17, 40, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511902857*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"bad3eaf1-445f-ad41-8180-aef9581c35f1"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 17, 41, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511934723*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"48328ac6-751f-f344-b0a5-21248fe94bf1"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"GaussianFilter\\\", \
+\\\"::\\\", \\\"arg1\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 17, 42, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511965828*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d3569e4e-cc5c-b142-8b05-a36786224caf"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", RowBox[{\\\"ImageResize\\\", \
+\\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", RowBox[{\\\"Scaled\\\", \
+\\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 43, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199511995716*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d7cf118e-dbf8-b445-97f1-f7ae187a159b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ImageAdjust\\\", \\\"::\
+\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 17, 44, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995120277824`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"f1388d2a-aa93-8d4c-b3db-fe845f58ddf4"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 
+   45, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512059227*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"c47d2330-31fc-7b49-a6fe-6dbed58c22d6"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"EdgeDetect\\\", \
+\\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 17, 46, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995120888996`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"38754a70-2b81-454c-a3e9-143160db73a5"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Dilation", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\) \
+is neither a rectangular array nor an image.\"", 2, 17, 47, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512120756*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"91660aad-2455-544a-943c-8791a3851976"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Dilation\\\", \
+\\\"::\\\", \\\"arg1\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 17, 48, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995121517773`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"893b6c4a-1ef2-e344-b5e5-b27362071f2a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "FillingTransform", "imginv", 
+   "\"Expecting an image or graphics instead of \\!\\(\\*RowBox[{\\\"Dilation\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", \
+RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\
+\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}]\\).\"", 2, 17, 49, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512182947*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"664261c3-5d6a-e346-97b9-d63ea9136db4"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"FillingTransform\\\", \
+\\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 17, 50, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995122128677`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"2dc6367e-49eb-004a-b0b3-3792209443e9"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 51, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512244375*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"ca732535-81fe-df45-80f2-ce4db0dcece6"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"MorphologicalComponents\
+\\\", \\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be \
+suppressed during this calculation.\"", 2, 17, 52, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512274843*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"3885e0a4-0a25-f144-9fd6-9c45b6d2bfb0"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"FillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"Dilation\\\", \\\"[\\\", RowBox[{RowBox[{\\\"EdgeDetect\\\", \
+\\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"Binarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 17, 53, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512305868*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"a589ae73-2274-8848-818e-e6a3760d9ae3"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ComponentMeasurements\\\
+\", \\\"::\\\", \\\"invarg1\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 17, 54, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512336838*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"361ab330-503f-e64c-bed7-6c302b4a2b87"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Prestazioni Mathe: \\n Media per singolo frame: \"\>", 
+   "\[InvisibleSpace]", "0.16041678`6.6567947881189875", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo massimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0.7307247`7.315298781137348", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo minimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0.0035067`4.996443606848951", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo totale per 10 frame:  \"\>", 
+   "\[InvisibleSpace]", "1.6041678`7.6567947881189875"}],
+  SequenceForm[
+  "Prestazioni Mathe: \n Media per singolo frame: ", 
+   0.16041678`6.6567947881189875, "\n Tempo massimo per singolo frame:  ", 
+   0.7307247`7.315298781137348, "\n Tempo minimo per singolo frame:  ", 
+   0.0035067`4.996443606848951, "\n Tempo totale per 10 frame:  ", 
+   1.6041678`7.6567947881189875],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.950199512397854*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"3b361b3c-a2bf-1d46-87a3-359d6ada5107"],
+
+Cell[BoxData["\<\"Simple starting\"\>"], "Print",
+ CellChangeTimes->{3.9501995124063587`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"3e200f63-caf3-f546-95cf-7e265112c3c9"]
+}, Open  ]],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 22, 55, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995124475555`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"09982008-077b-704d-94e8-5ac8dc461b8f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 22, 56, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995124796524`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4e67c4ea-ab88-1742-a818-f069a27ebda0"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 22, 57, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512509159*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"c612cd94-1a71-3a47-aff1-b17bd29956bf"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 22, 58, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512539852*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"2bcb9a80-46ae-c04f-ad65-d869af6efd03"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 22, 59, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995125718536`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"cd007343-0388-4648-8770-091bd32f02f3"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 60, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512603779*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"f87b892d-8a5d-4548-b85d-43bf61adfc62"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 
+   61, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995126368103`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"78980858-e148-2f44-b71a-c89c8ce707e8"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 62, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512666975*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"31c4438e-f248-dc45-8722-8eb6bd15727b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 63, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995126974297`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4d296a54-34b8-f943-85f3-9526d375d35f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 22, 64, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995127067547`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"2563bc17-3375-6e48-9f03-e739bfad721d"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 22, 65, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995127147617`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"8d311536-9c3f-dc43-920f-30b60f84d234"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 22, 66, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512719246*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"18e99553-5788-1a42-9239-76849aba8764"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 22, 67, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512743759*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"3849ac17-95ae-de4b-a88c-b76dba50c991"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 22, 68, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512773773*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"bbcba12b-4dd7-1e4f-b40e-c7bfeb1f9b47"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 69, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995128055897`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"53c83041-26f8-8e47-9b9e-135ca425f1bc"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 
+   70, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995128358574`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"2e567b76-4c5d-b444-a346-6eb4b42d4bde"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 71, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995128678665`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"e3c9974e-0f62-2145-bc17-f3f997f11cb6"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 72, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995128978615`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"a8a6f2a1-63e4-3148-8b75-a7dd5d30996b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NotebookDirectory", "nosv", 
+   "\"The notebook \\!\\(\\*TemplateBox[Association[RuleDelayed[\\\"obj\\\", \
+NotebookObject[\\\"304b1886-199d-ed41-9e26-9715be1d516d\\\", \
+\\\"848d2555-13dc-3e4d-8ad4-e7dc2dd0dd0d\\\"]], Rule[\\\"label\\\", \
+\\\"\\\\\\\"Untitled-1\\\\\\\"\\\"]], \\\"NotebookObjectUUIDsUnsaved\\\"]\\) \
+is not saved.\"", 2, 22, 73, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512905861*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"0450475c-babb-7a43-9599-e3ff94fed905"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"NotebookDirectory\\\", \
+\\\"::\\\", \\\"nosv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 22, 74, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512911579*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"cdb22172-1006-0f4c-a0b2-c756a411d6da"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "SetDirectory", "badfile", 
+   "\"The specified argument, \\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\), should \
+be a valid string or File.\"", 2, 22, 75, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512914583*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"c5d94c94-4166-3c40-9b7b-0dc6f0f244fd"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"SetDirectory\\\", \
+\\\"::\\\", \\\"badfile\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 22, 76, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995129175987`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"26f461e0-8c3a-ff43-9fad-b2b5e1940c50"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Import", "nffil", 
+   "\"File \\!\\(\\*RowBox[{\\\"\\\\\\\"foto5.jpg\\\\\\\"\\\"}]\\) not found \
+during \\!\\(\\*RowBox[{\\\"Import\\\"}]\\).\"", 2, 22, 77, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199512943859*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"72387794-d8cf-424f-992c-86069ddc0d6b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Import\\\", \\\"::\\\", \
+\\\"nffil\\\"}], \\\"MessageName\\\"]\\) will be suppressed during this \
+calculation.\"", 2, 22, 78, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995129749126`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"5f6667df-547e-624c-85e1-2ff3060a4cba"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageResize", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"$Failed\\\"}]\\).\"", 2, 22, 79, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513005596*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"788534e6-b76f-054d-b7bb-0b320b361dec"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ImageResize\\\", \\\"::\
+\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 22, 80, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995130368633`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4382928d-87aa-f24f-bede-7ab214ca8aa7"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "GaussianFilter", "arg1", 
+   "\"The first argument \\!\\(\\*RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) is neither a rectangular array nor an image.\"", 2, 22, 81, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995130699463`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"e9073ac8-422f-3a44-9687-cb0aef3e83fe"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"GaussianFilter\\\", \
+\\\"::\\\", \\\"arg1\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 22, 82, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.95019951310079*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"4dd6a561-f447-894e-bd71-3406d7ea2ba4"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ImageAdjust", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 83, 
+   19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513131857*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"3b83abdd-76be-304d-835f-d0d4e1677887"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ImageAdjust\\\", \\\"::\
+\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed during \
+this calculation.\"", 2, 22, 84, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513161907*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d42b0e5d-6291-9f4a-8632-8248be75d285"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "EdgeDetect", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"ImageAdjust\\\", \\\"[\\\", RowBox[{\\\"GaussianFilter\\\
+\", \\\"[\\\", RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", \\\"0.5`\\\", \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 
+   85, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995131932583`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"f4c4473e-9be3-9c45-8695-7ae9377eab58"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"EdgeDetect\\\", \
+\\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 22, 86, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513224703*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"93f49b14-6589-1a4f-9bc2-14d27cf365ab"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "MorphologicalComponents", "imginv", 
+   "\"Expecting an image or graphics instead of \
+\\!\\(\\*RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"$Failed\\\", \\\",\\\", \
+RowBox[{\\\"Scaled\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\",\\\", \\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \
+\\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \
+\\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\
+\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 87, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995132563744`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"76ceb940-b15d-4e45-92a8-d4dd82e5035f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"MorphologicalComponents\
+\\\", \\\"::\\\", \\\"imginv\\\"}], \\\"MessageName\\\"]\\) will be \
+suppressed during this calculation.\"", 2, 22, 88, 19334294400810668289, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513286415*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"0ad0ec17-9a25-5c45-8733-4ec92a6c1e1f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ComponentMeasurements", "invarg1", 
+   "\"Expecting a valid label matrix, an image, or a list of an image and a \
+label matrix instead of \\!\\(\\*RowBox[{\\\"MorphologicalComponents\\\", \
+\\\"[\\\", RowBox[{\\\"simpleFillingTransform\\\", \\\"[\\\", \
+RowBox[{\\\"simpleDilation\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"EdgeDetect\\\", \\\"[\\\", RowBox[{\\\"ImageAdjust\\\", \
+\\\"[\\\", RowBox[{\\\"GaussianFilter\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"simpleBinarize\\\", \\\"[\\\", \
+RowBox[{\\\"ImageResize\\\", \\\"[\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"2\\\", \\\"\[RightSkeleton]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+\\\"1\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\"]\\\"}], \\\",\\\", \
+RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \
+\\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \\\",\\\", \\\"1\\\"}], \\\"}\\\"}], \
+\\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"1\\\", \
+\\\",\\\", \\\"1\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"]\\\"}], \\\"]\\\"}]\\).\"", 2, 22, 89, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995133168697`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"054757d1-3c14-9b41-8459-7ea6f8468419"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "General", "stop", 
+   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"ComponentMeasurements\\\
+\", \\\"::\\\", \\\"invarg1\\\"}], \\\"MessageName\\\"]\\) will be suppressed \
+during this calculation.\"", 2, 22, 90, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9501995133478737`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"612f8a07-2a8d-604b-b91f-05d8233a1c98"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Prestazioni simple: \\n Media per singolo frame: \"\>", 
+   "\[InvisibleSpace]", "0.10059181`6.454107616197988", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo massimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0.4372749`7.0922995426351365", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo minimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0.0030006`4.928753098427282", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo totale per 10 frame:  \"\>", 
+   "\[InvisibleSpace]", "1.0079168`7.45496967759735"}],
+  SequenceForm[
+  "Prestazioni simple: \n Media per singolo frame: ", 
+   0.10059181`6.454107616197988, "\n Tempo massimo per singolo frame:  ", 
+   0.4372749`7.0922995426351365, "\n Tempo minimo per singolo frame:  ", 
+   0.0030006`4.928753098427282, "\n Tempo totale per 10 frame:  ", 
+   1.0079168`7.45496967759735],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9501995134057713`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"d55391ca-ee33-1d44-b33d-c62ab7042e28"],
+
+Cell[BoxData["\<\"Compiled Simple starting\"\>"], "Print",
+ CellChangeTimes->{3.9501995134088783`*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"916cbb1d-3a24-8f41-92d4-afe0641cf13d"]
+}, Open  ]],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Compile", "ctyp2", 
+   "\"Invalid type or rank specification in \\!\\(\\*RowBox[{\\\"{\\\", \
+RowBox[{\\\"foto\\\", \\\",\\\", \\\"_String\\\"}], \\\"}\\\"}]\\).\"", 2, 27,
+    91, 19334294400810668289, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.950199513418146*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"1f358462-6cc9-d747-8774-aa4bd91d3b02"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Prestazioni compiled simple: \\n Media per singolo frame: \
+\"\>", "\[InvisibleSpace]", "0``7.451544993495968", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo massimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0``7.451544993495968", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo minimo per singolo frame:  \"\>", 
+   "\[InvisibleSpace]", "0``7.451544993495968", 
+   "\[InvisibleSpace]", "\<\"\\n Tempo totale per 10 frame:  \"\>", 
+   "\[InvisibleSpace]", "0``7.451544993495968"}],
+  SequenceForm[
+  "Prestazioni compiled simple: \n Media per singolo frame: ", 
+   0``7.451544993495968, "\n Tempo massimo per singolo frame:  ", 
+   0``7.451544993495968, "\n Tempo minimo per singolo frame:  ", 
+   0``7.451544993495968, "\n Tempo totale per 10 frame:  ", 
+   0``7.451544993495968],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.950199513429178*^9},
+ CellLabel->
+  "During evaluation of \
+In[4]:=",ExpressionUUID->"6266f1d3-61a5-674d-bad0-1229bbb0a063"],
+
+Cell[BoxData[
+ TemplateBox[{
+   GraphicsBox[{{}, 
+     InterpretationBox[{
+       TagBox[{
+         TagBox[{
+           RGBColor[1, 0, 0], 
+           PointSize[0.012833333333333334`], 
+           AbsoluteThickness[2], 
+           
+           PointBox[{{1., 0.4420702}, {2., 0.0349851}, {3., 0.3544009}, {4., 
+            0.7307247}, {5., 0.0220635}, {6., 0.004003}, {7., 0.0035067}, {8.,
+             0.0043109}, {9., 0.0040009}, {10., 0.0041019}}]}, 
+          Annotation[#, "Charting`Private`Tag#1"]& ], 
+         TagBox[{
+           RGBColor[0, 0, 1], 
+           PointSize[0.012833333333333334`], 
+           AbsoluteThickness[2], 
+           
+           PointBox[{{1., 0.0552102}, {2., 0.2637342}, {3., 0.2007995}, {4., 
+            0.4372749}, {5., 0.0298206}, {6., 0.0040635}, {7., 0.0040002}, {
+            8., 0.0040116}, {9., 0.0040028}, {10., 0.0030006}}]}, 
+          Annotation[#, "Charting`Private`Tag#2"]& ], 
+         TagBox[{
+           RGBColor[0, 1, 0], 
+           PointSize[0.012833333333333334`], 
+           AbsoluteThickness[2], 
+           
+           PointBox[{{1., 0.}, {2., 0.}, {3., 0.}, {4., 0.}, {5., 0.}, {6., 
+            0.}, {7., 0.}, {8., 0.}, {9., 0.}, {10., 0.}}]}, 
+          Annotation[#, "Charting`Private`Tag#3"]& ]}, {
+        "WolframDynamicHighlight", <|
+         "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>}], 
+       StyleBox[
+        DynamicBox[
+         (Charting`HighlightActionBox["DynamicHighlight", {}, 
+          Slot["HighlightElements"], 
+          Slot["LayoutOptions"], 
+          Slot["Meta"], 
+          Charting`HighlightActionFunction["DynamicHighlight", {{
+             Annotation[{
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[1, 0, 0]], 
+               
+               Point[{{1., 0.4420702}, {2., 0.0349851}, {3., 0.3544009}, {4., 
+                0.7307247}, {5., 0.0220635}, {6., 0.004003}, {7., 
+                0.0035067}, {8., 0.0043109}, {9., 0.0040009}, {10., 
+                0.0041019}}]}, "Charting`Private`Tag#1"], 
+             Annotation[{
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[0, 0, 1]], 
+               
+               Point[{{1., 0.0552102}, {2., 0.2637342}, {3., 0.2007995}, {4., 
+                0.4372749}, {5., 0.0298206}, {6., 0.0040635}, {7., 
+                0.0040002}, {8., 0.0040116}, {9., 0.0040028}, {10., 
+                0.0030006}}]}, "Charting`Private`Tag#2"], 
+             Annotation[{
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[0, 1, 0]], 
+               
+               Point[{{1., 0.}, {2., 0.}, {3., 0.}, {4., 0.}, {5., 0.}, {6., 
+                0.}, {7., 0.}, {8., 0.}, {9., 0.}, {10., 0.}}]}, 
+              "Charting`Private`Tag#3"]}}, <|
+           "HighlightElements" -> <|
+             "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+            "LayoutOptions" -> <|
+             "PanelPlotLayout" -> <||>, 
+              "PlotRange" -> {{0., 10.}, {0., 0.5019987499999999}}, 
+              "Frame" -> {{False, False}, {False, False}}, 
+              "AxesOrigin" -> {0., 0}, "ImageSize" -> {360, 360/GoldenRatio}, 
+              "Axes" -> {True, True}, "LabelStyle" -> {}, "AspectRatio" -> 
+              GoldenRatio^(-1), "DefaultStyle" -> {
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[2], 
+                 RGBColor[0, 1, 0]], 
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[2], 
+                 RGBColor[0, 0, 1]], 
+                Directive[
+                 PointSize[0.012833333333333334`], 
+                 AbsoluteThickness[2], 
+                 RGBColor[1, 0, 0]]}, 
+              "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+                  Identity[
+                   Part[#, 1]], 
+                  Identity[
+                   Part[#, 2]]}& ), 
+                "ScalingFunctions" -> {{Identity, Identity}, {
+                  Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> 
+              False|>, 
+            "Meta" -> <|
+             "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, 
+              "Function" -> ListPlot, "GroupHighlight" -> False|>|>]]& )[<|
+          "HighlightElements" -> <|
+            "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+           "LayoutOptions" -> <|
+            "PanelPlotLayout" -> <||>, 
+             "PlotRange" -> {{0., 10.}, {0., 0.5019987499999999}}, 
+             "Frame" -> {{False, False}, {False, False}}, 
+             "AxesOrigin" -> {0., 0}, "ImageSize" -> {360, 360/GoldenRatio}, 
+             "Axes" -> {True, True}, "LabelStyle" -> {}, "AspectRatio" -> 
+             GoldenRatio^(-1), "DefaultStyle" -> {
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[0, 1, 0]], 
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[0, 0, 1]], 
+               Directive[
+                PointSize[0.012833333333333334`], 
+                AbsoluteThickness[2], 
+                RGBColor[1, 0, 0]]}, 
+             "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+                 Identity[
+                  Part[#, 1]], 
+                 Identity[
+                  Part[#, 2]]}& ), 
+               "ScalingFunctions" -> {{Identity, Identity}, {
+                 Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> 
+             False|>, 
+           "Meta" -> <|
+            "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, 
+             "Function" -> ListPlot, "GroupHighlight" -> False|>|>], 
+         ImageSizeCache -> {{4.503599627370496*^15, -4.503599627370496*^15}, {
+          4.503599627370496*^15, -4.503599627370496*^15}}], Selectable -> 
+        False]}, 
+      Annotation[{{
+         Annotation[{
+           Directive[
+            PointSize[0.012833333333333334`], 
+            AbsoluteThickness[2], 
+            RGBColor[1, 0, 0]], 
+           
+           Point[{{1., 0.4420702}, {2., 0.0349851}, {3., 0.3544009}, {4., 
+            0.7307247}, {5., 0.0220635}, {6., 0.004003}, {7., 0.0035067}, {8.,
+             0.0043109}, {9., 0.0040009}, {10., 0.0041019}}]}, 
+          "Charting`Private`Tag#1"], 
+         Annotation[{
+           Directive[
+            PointSize[0.012833333333333334`], 
+            AbsoluteThickness[2], 
+            RGBColor[0, 0, 1]], 
+           
+           Point[{{1., 0.0552102}, {2., 0.2637342}, {3., 0.2007995}, {4., 
+            0.4372749}, {5., 0.0298206}, {6., 0.0040635}, {7., 0.0040002}, {
+            8., 0.0040116}, {9., 0.0040028}, {10., 0.0030006}}]}, 
+          "Charting`Private`Tag#2"], 
+         Annotation[{
+           Directive[
+            PointSize[0.012833333333333334`], 
+            AbsoluteThickness[2], 
+            RGBColor[0, 1, 0]], 
+           
+           Point[{{1., 0.}, {2., 0.}, {3., 0.}, {4., 0.}, {5., 0.}, {6., 
+            0.}, {7., 0.}, {8., 0.}, {9., 0.}, {10., 0.}}]}, 
+          "Charting`Private`Tag#3"]}}, <|
+       "HighlightElements" -> <|
+         "Label" -> {"XYLabel"}, "Ball" -> {"IndicatedBall"}|>, 
+        "LayoutOptions" -> <|
+         "PanelPlotLayout" -> <||>, 
+          "PlotRange" -> {{0., 10.}, {0., 0.5019987499999999}}, 
+          "Frame" -> {{False, False}, {False, False}}, 
+          "AxesOrigin" -> {0., 0}, "ImageSize" -> {360, 360/GoldenRatio}, 
+          "Axes" -> {True, True}, "LabelStyle" -> {}, "AspectRatio" -> 
+          GoldenRatio^(-1), "DefaultStyle" -> {
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[2], 
+             RGBColor[0, 1, 0]], 
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[2], 
+             RGBColor[0, 0, 1]], 
+            Directive[
+             PointSize[0.012833333333333334`], 
+             AbsoluteThickness[2], 
+             RGBColor[1, 0, 0]]}, 
+          "HighlightLabelingFunctions" -> <|"CoordinatesToolOptions" -> ({
+              Identity[
+               Part[#, 1]], 
+              Identity[
+               Part[#, 2]]}& ), 
+            "ScalingFunctions" -> {{Identity, Identity}, {
+              Identity, Identity}}|>, "Primitives" -> {}, "GCFlag" -> False|>,
+         "Meta" -> <|
+         "DefaultHighlight" -> {"Dynamic", None}, "Index" -> {}, "Function" -> 
+          ListPlot, "GroupHighlight" -> False|>|>, 
+       "DynamicHighlight"]], {{}, {}}}, AspectRatio -> 
+    NCache[GoldenRatio^(-1), 0.6180339887498948], Axes -> {True, True}, 
+    AxesLabel -> {None, None}, AxesOrigin -> {0., 0}, DisplayFunction -> 
+    Identity, Frame -> {{False, False}, {False, False}}, 
+    FrameLabel -> {{None, None}, {None, None}}, 
+    FrameTicks -> {{Automatic, Automatic}, {Automatic, Automatic}}, 
+    GridLines -> {None, None}, GridLinesStyle -> Directive[
+      GrayLevel[0.5, 0.4]], 
+    Method -> {
+     "AxisPadding" -> Scaled[0.02], "DefaultBoundaryStyle" -> Automatic, 
+      "DefaultGraphicsInteraction" -> {
+       "Version" -> 1.2, "TrackMousePosition" -> {True, False}, 
+        "Effects" -> {
+         "Highlight" -> {"ratio" -> 2}, "HighlightPoint" -> {"ratio" -> 2}, 
+          "Droplines" -> {
+           "freeformCursorMode" -> True, 
+            "placement" -> {"x" -> "All", "y" -> "None"}}}}, 
+      "DefaultMeshStyle" -> AbsolutePointSize[6], "DefaultPlotStyle" -> {
+        Directive[
+         RGBColor[0.368417, 0.506779, 0.709798], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.880722, 0.611041, 0.142051], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.560181, 0.691569, 0.194885], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.922526, 0.385626, 0.209179], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.528488, 0.470624, 0.701351], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.772079, 0.431554, 0.102387], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.363898, 0.618501, 0.782349], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[1, 0.75, 0], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.647624, 0.37816, 0.614037], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.571589, 0.586483, 0.], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.915, 0.3325, 0.2125], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.40082222609352647`, 0.5220066643438841, 0.85], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.9728288904374106, 0.621644452187053, 0.07336199581899142], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.736782672705901, 0.358, 0.5030266573755369], 
+         AbsoluteThickness[2]], 
+        Directive[
+         RGBColor[0.28026441037696703`, 0.715, 0.4292089322474965], 
+         AbsoluteThickness[2]]}, "DomainPadding" -> Scaled[0.02], 
+      "PointSizeFunction" -> "SmallPointSize", "RangePadding" -> Scaled[0.05],
+       "OptimizePlotMarkers" -> True, "IncludeHighlighting" -> "CurrentPoint",
+       "HighlightStyle" -> Automatic, "OptimizePlotMarkers" -> True, 
+      "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+          Identity[
+           Part[#, 1]], 
+          Identity[
+           Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+          Identity[
+           Part[#, 1]], 
+          Identity[
+           Part[#, 2]]}& )}}, PlotLabel -> 
+    FormBox["\"Confronto tra matheTimes, simpleTimes e compiledSimpleTimes\"",
+       TraditionalForm], PlotRange -> {{0., 10.}, {0., 0.5019987499999999}}, 
+    PlotRangeClipping -> True, PlotRangePadding -> {{
+       Scaled[0.02], 
+       Scaled[0.02]}, {0, 
+       Scaled[0.05]}}, Ticks -> {Automatic, Automatic}], 
+   FormBox[
+    FormBox[
+     TemplateBox[{
+      "\"matheTimes\"", "\"simpleTimes\"", "\"compiledSimpleTimes\""}, 
+      "PointLegend", DisplayFunction -> (FormBox[
+        StyleBox[
+         StyleBox[
+          PaneBox[
+           TagBox[
+            GridBox[{{
+               TagBox[
+                GridBox[{{
+                   GraphicsBox[{{}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[1, 0, 0]], {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[1, 0, 0]], 
+                    PointBox[
+                    NCache[{
+                    Scaled[{
+                    Rational[1, 2], 
+                    Rational[1, 2]}]}, {
+                    Scaled[{0.5, 0.5}]}]]}}}, AspectRatio -> Full, 
+                    ImageSize -> {10, 12.5}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.18000000000000002`] -> 
+                    Baseline)], #}, {
+                   GraphicsBox[{{}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[0, 0, 1]], {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[0, 0, 1]], 
+                    PointBox[
+                    NCache[{
+                    Scaled[{
+                    Rational[1, 2], 
+                    Rational[1, 2]}]}, {
+                    Scaled[{0.5, 0.5}]}]]}}}, AspectRatio -> Full, 
+                    ImageSize -> {10, 12.5}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.18000000000000002`] -> 
+                    Baseline)], #2}, {
+                   GraphicsBox[{{}, {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[0, 1, 0]], {
+                    Directive[
+                    EdgeForm[
+                    Directive[
+                    Opacity[0.3], 
+                    GrayLevel[0]]], 
+                    PointSize[0.5], 
+                    AbsoluteThickness[2], 
+                    RGBColor[0, 1, 0]], 
+                    PointBox[
+                    NCache[{
+                    Scaled[{
+                    Rational[1, 2], 
+                    Rational[1, 2]}]}, {
+                    Scaled[{0.5, 0.5}]}]]}}}, AspectRatio -> Full, 
+                    ImageSize -> {10, 12.5}, PlotRangePadding -> None, 
+                    ImagePadding -> Automatic, 
+                    BaselinePosition -> (Scaled[0.18000000000000002`] -> 
+                    Baseline)], #3}}, 
+                 GridBoxAlignment -> {
+                  "Columns" -> {Center, Left}, "Rows" -> {{Baseline}}}, 
+                 AutoDelete -> False, 
+                 GridBoxDividers -> {
+                  "Columns" -> {{False}}, "Rows" -> {{False}}}, 
+                 GridBoxItemSize -> {"Columns" -> {{All}}, "Rows" -> {{All}}},
+                  GridBoxSpacings -> {
+                  "Columns" -> {{0.5}}, "Rows" -> {{0.8}}}], "Grid"]}}, 
+             GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+             AutoDelete -> False, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {"Columns" -> {{1}}, "Rows" -> {{0}}}], 
+            "Grid"], Alignment -> Left, AppearanceElements -> None, 
+           ImageMargins -> {{5, 5}, {5, 5}}, ImageSizeAction -> 
+           "ResizeToFit"], LineIndent -> 0, StripOnInput -> False], {
+         FontFamily -> "Arial"}, Background -> Automatic, StripOnInput -> 
+         False], TraditionalForm]& ), 
+      InterpretationFunction :> (RowBox[{"PointLegend", "[", 
+         RowBox[{
+           RowBox[{"{", 
+             RowBox[{
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[1, 0, 0]|>, 
+                    "RGBColorSwatchTemplate"]}], "]"}], ",", 
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[0, 0, 1]|>, 
+                    "RGBColorSwatchTemplate"]}], "]"}], ",", 
+               RowBox[{"Directive", "[", 
+                 RowBox[{
+                   RowBox[{"PointSize", "[", "0.012833333333333334`", "]"}], 
+                   ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                   
+                   TemplateBox[<|"color" -> RGBColor[0, 1, 0]|>, 
+                    "RGBColorSwatchTemplate"]}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", 
+             RowBox[{#, ",", #2, ",", #3}], "}"}], ",", 
+           RowBox[{"LegendMarkers", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}], ",", 
+                 RowBox[{"{", 
+                   RowBox[{"False", ",", "Automatic"}], "}"}]}], "}"}]}], ",", 
+           RowBox[{"Joined", "\[Rule]", 
+             RowBox[{"{", 
+               RowBox[{"False", ",", "False", ",", "False"}], "}"}]}], ",", 
+           RowBox[{"LabelStyle", "\[Rule]", 
+             RowBox[{"{", "}"}]}], ",", 
+           RowBox[{"LegendLayout", "\[Rule]", "\"Column\""}]}], "]"}]& ), 
+      Editable -> True], TraditionalForm], TraditionalForm]},
+  "Legended",
+  DisplayFunction->(GridBox[{{
+      TagBox[
+       ItemBox[
+        PaneBox[
+         TagBox[#, "SkipImageSizeLevel"], Alignment -> {Center, Baseline}, 
+         BaselinePosition -> Baseline], DefaultBaseStyle -> "Labeled"], 
+       "SkipImageSizeLevel"], 
+      ItemBox[#2, DefaultBaseStyle -> "LabeledLabel"]}}, 
+    GridBoxAlignment -> {"Columns" -> {{Center}}, "Rows" -> {{Center}}}, 
+    AutoDelete -> False, GridBoxItemSize -> Automatic, 
+    BaselinePosition -> {1, 1}]& ),
+  Editable->True,
+  InterpretationFunction->(RowBox[{"Legended", "[", 
+     RowBox[{#, ",", 
+       RowBox[{"Placed", "[", 
+         RowBox[{#2, ",", "After"}], "]"}]}], "]"}]& )]], "Output",
+ CellChangeTimes->{3.9501995141367264`*^9},
+ CellLabel->"Out[30]=",ExpressionUUID->"0f931ab3-14cf-9b4b-a23f-9ebe33b0c137"]
+}, Open  ]]
+},
+WindowSize->{1908, 1011.75},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"304b1886-199d-ed41-9e26-9715be1d516d"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 20358, 517, 2026, "Input",ExpressionUUID->"e929ce42-aef7-bd4b-861f-d057bca1aa73"],
+Cell[20937, 541, 429, 10, 26, "Message",ExpressionUUID->"5342891d-0e97-c549-9da3-8e6e90532905"],
+Cell[21369, 553, 598, 12, 36, "Message",ExpressionUUID->"a85eacca-eca0-2f40-b39f-ffbbf911c6d3"],
+Cell[21970, 567, 398, 9, 26, "Message",ExpressionUUID->"f5fffe94-115e-304b-a742-7734bd9a25c5"],
+Cell[22371, 578, 196, 4, 22, "Print",ExpressionUUID->"8ce46b29-4db7-ee41-9702-9d5d6ee0e507"],
+Cell[22570, 584, 600, 12, 36, "Message",ExpressionUUID->"badb6ced-e2b7-7c46-b140-b2e631d8b3f7"],
+Cell[23173, 598, 398, 9, 26, "Message",ExpressionUUID->"dd5e719e-5a04-c942-86d4-7f95536f5150"],
+Cell[23574, 609, 411, 10, 26, "Message",ExpressionUUID->"93c9fd56-ad7d-094e-8324-0cc65381e47e"],
+Cell[23988, 621, 383, 10, 26, "Message",ExpressionUUID->"4ce9188b-5c36-484c-bfd6-f2588cf156f2"],
+Cell[24374, 633, 508, 11, 26, "Message",ExpressionUUID->"b1155773-066e-944a-a907-c3edb588b16f"],
+Cell[24885, 646, 587, 12, 26, "Message",ExpressionUUID->"b472b809-7223-634c-b1ae-e9bc088ab882"],
+Cell[25475, 660, 651, 13, 26, "Message",ExpressionUUID->"4f658a33-f2d7-304e-a142-50809db839d1"],
+Cell[26129, 675, 707, 14, 26, "Message",ExpressionUUID->"5e147914-aa2b-e149-aad2-2a163decbe65"],
+Cell[26839, 691, 778, 15, 26, "Message",ExpressionUUID->"5c0330ea-92bb-fb4c-a023-0bc3c74f0824"],
+Cell[27620, 708, 1200, 20, 26, "Message",ExpressionUUID->"11b26f68-db89-9e43-9553-b24352115223"],
+Cell[28823, 730, 1328, 22, 26, "Message",ExpressionUUID->"f53f517d-37f1-e547-b004-822e47d99c2a"],
+Cell[30154, 754, 1360, 22, 26, "Message",ExpressionUUID->"d612196f-dc67-6944-9f80-6bdda852f149"],
+Cell[31517, 778, 599, 12, 36, "Message",ExpressionUUID->"a3d2274c-fc3c-9440-8c91-1576581a2c0e"],
+Cell[32119, 792, 397, 9, 26, "Message",ExpressionUUID->"262a503a-5191-8340-9574-439aaa6fe2bd"],
+Cell[32519, 803, 412, 10, 26, "Message",ExpressionUUID->"79d55629-2fe7-4f47-87aa-df73f8f2e113"],
+Cell[32934, 815, 382, 10, 26, "Message",ExpressionUUID->"1555dc8b-7986-ee49-abdd-abb0f3d1fd69"],
+Cell[33319, 827, 508, 11, 26, "Message",ExpressionUUID->"1c9c513f-1e24-f147-bf12-a08c92bcac40"],
+Cell[33830, 840, 585, 12, 26, "Message",ExpressionUUID->"8dbdec00-2c9e-d246-9abd-eaf97fe4bc9c"],
+Cell[34418, 854, 653, 13, 26, "Message",ExpressionUUID->"22fa5ca6-f080-4445-91c4-941166a703d7"],
+Cell[35074, 869, 709, 14, 26, "Message",ExpressionUUID->"eb9b44ee-4617-9b4f-9661-fe9b95629152"],
+Cell[35786, 885, 780, 15, 26, "Message",ExpressionUUID->"ff188842-b34c-ef45-9cea-721c72e7d24e"],
+Cell[36569, 902, 1201, 20, 26, "Message",ExpressionUUID->"507e7502-94bb-0a4c-8c2a-ba4f5ef80220"],
+Cell[37773, 924, 1328, 22, 26, "Message",ExpressionUUID->"196a30b4-089a-284f-9c59-7d0797ef707b"],
+Cell[39104, 948, 1360, 22, 26, "Message",ExpressionUUID->"7df49206-e4f7-b74b-886a-746e0d02ab50"],
+Cell[40467, 972, 601, 12, 36, "Message",ExpressionUUID->"5a70e035-e30b-7143-9b6c-eb6edf481592"],
+Cell[41071, 986, 463, 10, 26, "Message",ExpressionUUID->"92e60ea1-8803-9341-b4e6-6546ff0dbb1a"],
+Cell[41537, 998, 399, 9, 26, "Message",ExpressionUUID->"a473a03d-34fe-5140-b31f-83dbc46a2dbc"],
+Cell[41939, 1009, 461, 10, 26, "Message",ExpressionUUID->"23a6d4af-d2ff-944c-870d-f9c16c4b4396"],
+Cell[42403, 1021, 412, 10, 26, "Message",ExpressionUUID->"959c3a05-79ec-d743-b567-b4dd32296ff4"],
+Cell[42818, 1033, 451, 10, 26, "Message",ExpressionUUID->"01052b45-dc5c-a24e-a2a5-a8ed7d7d569a"],
+Cell[43272, 1045, 383, 10, 26, "Message",ExpressionUUID->"7a07d14b-3157-7f4f-b3e2-e665be25f18d"],
+Cell[43658, 1057, 459, 10, 26, "Message",ExpressionUUID->"d4ed4bd4-df83-354d-b7be-474f16e08d39"],
+Cell[44120, 1069, 506, 11, 26, "Message",ExpressionUUID->"ab8de413-c403-3049-bb3b-ebb5306dde8a"],
+Cell[44629, 1082, 454, 10, 26, "Message",ExpressionUUID->"bad3eaf1-445f-ad41-8180-aef9581c35f1"],
+Cell[45086, 1094, 585, 12, 26, "Message",ExpressionUUID->"48328ac6-751f-f344-b0a5-21248fe94bf1"],
+Cell[45674, 1108, 458, 10, 26, "Message",ExpressionUUID->"d3569e4e-cc5c-b142-8b05-a36786224caf"],
+Cell[46135, 1120, 651, 13, 26, "Message",ExpressionUUID->"d7cf118e-dbf8-b445-97f1-f7ae187a159b"],
+Cell[46789, 1135, 459, 10, 26, "Message",ExpressionUUID->"f1388d2a-aa93-8d4c-b3db-fe845f58ddf4"],
+Cell[47251, 1147, 707, 14, 26, "Message",ExpressionUUID->"c47d2330-31fc-7b49-a6fe-6dbed58c22d6"],
+Cell[47961, 1163, 458, 10, 26, "Message",ExpressionUUID->"38754a70-2b81-454c-a3e9-143160db73a5"],
+Cell[48422, 1175, 778, 15, 26, "Message",ExpressionUUID->"91660aad-2455-544a-943c-8791a3851976"],
+Cell[49203, 1192, 454, 10, 26, "Message",ExpressionUUID->"893b6c4a-1ef2-e344-b5e5-b27362071f2a"],
+Cell[49660, 1204, 1201, 20, 26, "Message",ExpressionUUID->"664261c3-5d6a-e346-97b9-d63ea9136db4"],
+Cell[50864, 1226, 464, 10, 26, "Message",ExpressionUUID->"2dc6367e-49eb-004a-b0b3-3792209443e9"],
+Cell[51331, 1238, 1328, 22, 26, "Message",ExpressionUUID->"ca732535-81fe-df45-80f2-ce4db0dcece6"],
+Cell[52662, 1262, 473, 11, 26, "Message",ExpressionUUID->"3885e0a4-0a25-f144-9fd6-9c45b6d2bfb0"],
+Cell[53138, 1275, 1358, 22, 26, "Message",ExpressionUUID->"a589ae73-2274-8848-818e-e6a3760d9ae3"],
+Cell[54499, 1299, 468, 10, 26, "Message",ExpressionUUID->"361ab330-503f-e64c-bed7-6c302b4a2b87"],
+Cell[CellGroupData[{
+Cell[54992, 1313, 1047, 20, 92, "Print",ExpressionUUID->"3b361b3c-a2bf-1d46-87a3-359d6ada5107"],
+Cell[56042, 1335, 197, 4, 22, "Print",ExpressionUUID->"3e200f63-caf3-f546-95cf-7e265112c3c9"]
+}, Open  ]],
+Cell[56254, 1342, 601, 12, 36, "Message",ExpressionUUID->"09982008-077b-704d-94e8-5ac8dc461b8f"],
+Cell[56858, 1356, 399, 9, 26, "Message",ExpressionUUID->"4e67c4ea-ab88-1742-a818-f069a27ebda0"],
+Cell[57260, 1367, 412, 10, 26, "Message",ExpressionUUID->"c612cd94-1a71-3a47-aff1-b17bd29956bf"],
+Cell[57675, 1379, 383, 10, 26, "Message",ExpressionUUID->"2bcb9a80-46ae-c04f-ad65-d869af6efd03"],
+Cell[58061, 1391, 593, 12, 26, "Message",ExpressionUUID->"cd007343-0388-4648-8770-091bd32f02f3"],
+Cell[58657, 1405, 661, 14, 26, "Message",ExpressionUUID->"f87b892d-8a5d-4548-b85d-43bf61adfc62"],
+Cell[59321, 1421, 715, 14, 26, "Message",ExpressionUUID->"78980858-e148-2f44-b71a-c89c8ce707e8"],
+Cell[60039, 1437, 1348, 23, 26, "Message",ExpressionUUID->"31c4438e-f248-dc45-8722-8eb6bd15727b"],
+Cell[61390, 1462, 1380, 23, 26, "Message",ExpressionUUID->"4d296a54-34b8-f943-85f3-9526d375d35f"],
+Cell[62773, 1487, 601, 12, 36, "Message",ExpressionUUID->"2563bc17-3375-6e48-9f03-e739bfad721d"],
+Cell[63377, 1501, 399, 9, 26, "Message",ExpressionUUID->"8d311536-9c3f-dc43-920f-30b60f84d234"],
+Cell[63779, 1512, 412, 10, 26, "Message",ExpressionUUID->"18e99553-5788-1a42-9239-76849aba8764"],
+Cell[64194, 1524, 383, 10, 26, "Message",ExpressionUUID->"3849ac17-95ae-de4b-a88c-b76dba50c991"],
+Cell[64580, 1536, 591, 12, 26, "Message",ExpressionUUID->"bbcba12b-4dd7-1e4f-b40e-c7bfeb1f9b47"],
+Cell[65174, 1550, 663, 14, 26, "Message",ExpressionUUID->"53c83041-26f8-8e47-9b9e-135ca425f1bc"],
+Cell[65840, 1566, 715, 14, 26, "Message",ExpressionUUID->"2e567b76-4c5d-b444-a346-6eb4b42d4bde"],
+Cell[66558, 1582, 1350, 23, 26, "Message",ExpressionUUID->"e3c9974e-0f62-2145-bc17-f3f997f11cb6"],
+Cell[67911, 1607, 1380, 23, 26, "Message",ExpressionUUID->"a8a6f2a1-63e4-3148-8b75-a7dd5d30996b"],
+Cell[69294, 1632, 599, 12, 36, "Message",ExpressionUUID->"0450475c-babb-7a43-9599-e3ff94fed905"],
+Cell[69896, 1646, 461, 10, 26, "Message",ExpressionUUID->"cdb22172-1006-0f4c-a0b2-c756a411d6da"],
+Cell[70360, 1658, 397, 9, 26, "Message",ExpressionUUID->"c5d94c94-4166-3c40-9b7b-0dc6f0f244fd"],
+Cell[70760, 1669, 461, 10, 26, "Message",ExpressionUUID->"26f461e0-8c3a-ff43-9fad-b2b5e1940c50"],
+Cell[71224, 1681, 412, 10, 26, "Message",ExpressionUUID->"72387794-d8cf-424f-992c-86069ddc0d6b"],
+Cell[71639, 1693, 453, 10, 26, "Message",ExpressionUUID->"5f6667df-547e-624c-85e1-2ff3060a4cba"],
+Cell[72095, 1705, 383, 10, 26, "Message",ExpressionUUID->"788534e6-b76f-054d-b7bb-0b320b361dec"],
+Cell[72481, 1717, 459, 10, 26, "Message",ExpressionUUID->"4382928d-87aa-f24f-bede-7ab214ca8aa7"],
+Cell[72943, 1729, 593, 12, 26, "Message",ExpressionUUID->"e9073ac8-422f-3a44-9687-cb0aef3e83fe"],
+Cell[73539, 1743, 457, 10, 26, "Message",ExpressionUUID->"4dd6a561-f447-894e-bd71-3406d7ea2ba4"],
+Cell[73999, 1755, 661, 14, 26, "Message",ExpressionUUID->"3b83abdd-76be-304d-835f-d0d4e1677887"],
+Cell[74663, 1771, 457, 10, 26, "Message",ExpressionUUID->"d42b0e5d-6291-9f4a-8632-8248be75d285"],
+Cell[75123, 1783, 715, 14, 26, "Message",ExpressionUUID->"f4c4473e-9be3-9c45-8695-7ae9377eab58"],
+Cell[75841, 1799, 456, 10, 26, "Message",ExpressionUUID->"93f49b14-6589-1a4f-9bc2-14d27cf365ab"],
+Cell[76300, 1811, 1350, 23, 26, "Message",ExpressionUUID->"76ceb940-b15d-4e45-92a8-d4dd82e5035f"],
+Cell[77653, 1836, 473, 11, 26, "Message",ExpressionUUID->"0ad0ec17-9a25-5c45-8733-4ec92a6c1e1f"],
+Cell[78129, 1849, 1380, 23, 26, "Message",ExpressionUUID->"054757d1-3c14-9b41-8459-7ea6f8468419"],
+Cell[79512, 1874, 470, 10, 26, "Message",ExpressionUUID->"612f8a07-2a8d-604b-b91f-05d8233a1c98"],
+Cell[CellGroupData[{
+Cell[80007, 1888, 1047, 20, 92, "Print",ExpressionUUID->"d55391ca-ee33-1d44-b33d-c62ab7042e28"],
+Cell[81057, 1910, 206, 4, 22, "Print",ExpressionUUID->"916cbb1d-3a24-8f41-92d4-afe0641cf13d"]
+}, Open  ]],
+Cell[81278, 1917, 431, 10, 26, "Message",ExpressionUUID->"1f358462-6cc9-d747-8774-aa4bd91d3b02"],
+Cell[81712, 1929, 1003, 20, 92, "Print",ExpressionUUID->"6266f1d3-61a5-674d-bad0-1229bbb0a063"],
+Cell[82718, 1951, 19737, 453, 261, "Output",ExpressionUUID->"0f931ab3-14cf-9b4b-a23f-9ebe33b0c137"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
