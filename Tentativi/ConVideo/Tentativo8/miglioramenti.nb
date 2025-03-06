@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       154,          7]
-NotebookDataLength[     50116,       1021]
-NotebookOptionsPosition[     49397,       1001]
-NotebookOutlinePosition[     49827,       1018]
-CellTagsIndexPosition[     49784,       1015]
+NotebookDataLength[     50126,       1022]
+NotebookOptionsPosition[     49407,       1002]
+NotebookOutlinePosition[     49837,       1019]
+CellTagsIndexPosition[     49794,       1016]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -786,19 +786,18 @@ Cell[BoxData[{
               RowBox[{"{", "\[IndentingNewLine]", 
                RowBox[{
                 RowBox[{"{", 
-                 RowBox[{"Red", ",", 
-                  RowBox[{"Inset", "[", 
-                   RowBox[{
-                    RowBox[{"candidateMasks", "[", 
+                 RowBox[{"Inset", "[", 
+                  RowBox[{
+                   RowBox[{"candidateMasks", "[", 
                     RowBox[{"[", 
                     RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
-                    RowBox[{"candidateMasks", "[", 
+                   RowBox[{"candidateMasks", "[", 
                     RowBox[{"[", 
                     RowBox[{"i", ",", "2"}], "]"}], "]"}], ",", "Center", ",", 
-                    RowBox[{"ImageDimensions", "[", 
+                   RowBox[{"ImageDimensions", "[", 
                     RowBox[{"candidateMasks", "[", 
                     RowBox[{"[", 
-                    RowBox[{"i", ",", "1"}], "]"}], "]"}], "]"}]}], "]"}]}], 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], "]"}]}], "]"}], 
                  "}"}], ",", 
                 RowBox[{"{", 
                  RowBox[{"Black", ",", "Large", ",", 
@@ -821,7 +820,7 @@ Cell[BoxData[{
                     RowBox[{"[", 
                     RowBox[{"i", ",", "2"}], "]"}], "]"}], "]"}]}], "}"}], 
                 ",", 
-                RowBox[{"(*", "CENTROIDE", "*)"}], 
+                RowBox[{"(*", "CENTROIDE", "*)"}], "\[IndentingNewLine]", 
                 RowBox[{"{", 
                  RowBox[{"Green", ",", 
                   RowBox[{"Thickness", "[", "0.005", "]"}], ",", 
@@ -883,7 +882,7 @@ Cell[BoxData[{
              "]"}], "]"}]}], "]"}]}]}], "]"}], ",", 
       RowBox[{"{", 
        RowBox[{"frame", ",", "frames"}], "}"}]}], "]"}]}], ";"}], 
-  "\n"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}], "\n", 
  RowBox[{
   RowBox[{"Export", "[", 
    RowBox[{"\"\<processed_video.mp4\>\"", ",", "processedFrames", ",", 
@@ -996,8 +995,10 @@ Cell[BoxData[{
    3.9484436274530754`*^9}, {3.948444135478924*^9, 3.9484441574877434`*^9}, {
    3.948444319978348*^9, 3.948444333714361*^9}, {3.9493085260273914`*^9, 
    3.9493085367548504`*^9}, {3.9493087109917793`*^9, 
-   3.9493087627591953`*^9}, {3.9493088844901752`*^9, 3.949308899131214*^9}},
- CellLabel->"In[50]:=",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+   3.9493087627591953`*^9}, {3.9493088844901752`*^9, 3.949308899131214*^9}, 
+   3.9502617122655525`*^9, 
+   3.950261789484619*^9},ExpressionUUID->"5688e14a-8636-8b47-b747-\
+1c29302af938"]
 },
 WindowSize->{1908, 999.75},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
@@ -1022,7 +1023,7 @@ Cell[576, 22, 9471, 199, 745, "Input",ExpressionUUID->"b15006df-4c69-454e-83e5-2
 Cell[10050, 223, 15215, 320, 1765, "Output",ExpressionUUID->"3d43f857-d307-ee46-a954-63360e0173c4"],
 Cell[25268, 545, 3883, 65, 64, "Output",ExpressionUUID->"c36238ae-0de6-284c-b7ef-2824fdbd2b19"]
 }, Open  ]],
-Cell[29166, 613, 20227, 386, 1189, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
+Cell[29166, 613, 20237, 387, 1171, "Input",ExpressionUUID->"5688e14a-8636-8b47-b747-1c29302af938"]
 }
 ]
 *)
