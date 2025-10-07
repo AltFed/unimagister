@@ -47,7 +47,7 @@ fprintf("Avvio la ricerca dei valori migliori:")
                 % initialize eligibility traces
                 z = zeros(size(w));
                 % get feature for initial state
-                Fac = Features(s,1);
+                Fac = Features(s);
                 % get quality function
                 Q = w'*Fac;
                 % take epsilon greedy actions
