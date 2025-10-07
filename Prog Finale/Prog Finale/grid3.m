@@ -44,7 +44,7 @@ if(won == 1 )
     Terminal = true;
     r=1;
 elseif( won == 0 && ~nz) % stato terminale tie game
-    r=0;
+    r=0.5;
     Terminal=true;
 else
     clf
@@ -85,7 +85,7 @@ else
 
     if (won == 0 && ~nz)    % tie game
         Terminal=true;
-        r=0;
+        r=0.5;
     end
     if(won == 0 && nz) % nessuno ha ancora vinto e posso mettere altre pedine
         Terminal=false;

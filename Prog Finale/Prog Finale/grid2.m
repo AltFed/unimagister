@@ -1,5 +1,6 @@
 function [possib,sp,r,Terminal]=grid2(possib,s,a)
-
+ins=[];
+won=0;
 w=s;%cambierò un solo elemento alla matrice
 Terminal=false;
 % in base al giocatore che ha chiamato l'ambiente decido di che colore è la
@@ -15,7 +16,6 @@ for i=1:1:6
         ins=[i,a]; %salvo il punto in cui ho inserito per effettuare le verifiche dopo
         break;
     end
-
     if(s(i,a)~=0) %verifica valida fino alla penultima riga
         if(possib(a)==1)
             w(i-1,a)=colore;
@@ -27,7 +27,9 @@ for i=1:1:6
         end
     end
 end
-won=checker(possib,w,colore,ins);
+if ~isempty(ins)
+    won=checker(possib,w,colore,ins);
+end
 nz = any(possib(:) ~= 0); % check se possib ha almeno un elemento != da 0 -> nz= true
 if(won == 2 )
     Terminal = true;
@@ -36,7 +38,7 @@ if(won == 2 )
     return;
 end
 if( won == 0 && ~nz) % stato terminale tie game
-    r=0;
+    r=-0.5;
     Terminal=true;
     sp=w;
     return;
@@ -79,7 +81,7 @@ end
 
 if (won == 0 && ~nz)    % tie game
     Terminal=true;
-    r=0;
+    r=-0.5;
 end
 if(won == 0 && nz) % nessuno ha ancora vinto e posso mettere altre pedine
     Terminal=false;

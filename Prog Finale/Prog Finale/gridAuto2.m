@@ -35,55 +35,54 @@ if(won == 2 )
     r=1;
 
 elseif( won == 0 && ~nz) % stato terminale tie game
-    r=0;
+    r=-0.5;
     Terminal=true;
 else
 
-Fac=Features(sp);
-Qp=w2'*Fac;
-vec = possibleaction(possib); % take random action on the ones you can take
-temp=size(vec);
-%player 2 take action not random
-if rand < 0.2
-    a=vec(randi(temp(2)));
-else
-    a = find(Qp == max(Qp(vec)), 1, 'first'); % player 2 take  only greedy action
-end
-
-if( won ~= 2 && nz) % se il giocatore 2 vince non posso giocare
-    colore=1;
-    for i=1:1:6
-        if(w(i,a)==0 && i==6) %verifica dell'ultima linea
-            sp(i,a)=colore;
-            ins=[i,a]; %salvo il punto in cui ho inserito per effettuare le verifiche dopo
-            break;
-        end
-
-        if(w(i,a)~=0) %verifica valida fino alla penultima riga
-            if(possib(a)==1)
-                sp(i-1,a)=colore;
-                ins=[i-1,a];
-                if(i-1==1)
-                    possib(a)=0;
-                end
+    Fac=Features(sp,1);
+    Qp=w2'*Fac;
+    vec = possibleaction(possib); % take random action on the ones you can take
+    temp=size(vec);
+    %player 1 take action
+    if rand() < 0.2
+        a=vec(randi(temp(2)));
+    else
+        a = find(Qp == max(Qp(vec)), 1, 'first'); % player 1 take greedy action
+    end
+    if( won ~= 2 && nz) % se il giocatore 2 vince non posso giocare
+        colore=1;
+        for i=1:1:6
+            if(w(i,a)==0 && i==6) %verifica dell'ultima linea
+                sp(i,a)=colore;
+                ins=[i,a]; %salvo il punto in cui ho inserito per effettuare le verifiche dopo
                 break;
+            end
+
+            if(w(i,a)~=0) %verifica valida fino alla penultima riga
+                if(possib(a)==1)
+                    sp(i-1,a)=colore;
+                    ins=[i-1,a];
+                    if(i-1==1)
+                        possib(a)=0;
+                    end
+                    break;
+                end
             end
         end
     end
-end
-won=checker(possib,sp,colore,ins);  % check se il secondo player vince
-nz = any(possib(:) ~= 0); % check se possib ha almeno un elemento != da 0 -> nz= true
-if (won == 1) % player 2 win
-    Terminal=true;
-    r=-1;
-end
+    won=checker(possib,sp,colore,ins);  % check se il secondo player vince
+    nz = any(possib(:) ~= 0); % check se possib ha almeno un elemento != da 0 -> nz= true
+    if (won == 1) % player 2 win
+        Terminal=true;
+        r=-1;
+    end
 
-if (won == 0 && ~nz)    % tie game
-    Terminal=true;
-    r=0;
-end
-if(won == 0 && nz) % nessuno ha ancora vinto e posso mettere altre pedine
-    Terminal=false;
-    r=0;
-end
+    if (won == 0 && ~nz)    % tie game
+        Terminal=true;
+        r=-0.5;
+    end
+    if(won == 0 && nz) % nessuno ha ancora vinto e posso mettere altre pedine
+        Terminal=false;
+        r=0;
+    end
 end

@@ -1,18 +1,20 @@
-%player 2 autolearning
-function [w,w3,Win_Rate]=AutoLearn2(~,gamma,alpha,lambda,w,w3)
-epsilon=0.1;
+%% Player 2 Autolearning
+function [w,w3]=AutoLearn2(~,gamma,~,lambda,w,w3)
+epsilon=0.2;
+t=0.01;
 Win_Rate=[];
-for j=1:5
+ for j=1:5
     Rate=[0 0 0];
     numEpisodes=500*j;
     for e = 1:numEpisodes
+        alpha=t*(1-(e/(numEpisodes+500))); % alpha dinamico
         % initialize the episode
         s = zeros(6,7);
         possib=ones(1,7);
         % initialize eligibility traces
         z = zeros(size(w3));
         % player 1 prende una azione random all inizio
-        T=Features(s);
+        T=Features(s,1);
         QQ=w'*T;
         vec = possibleaction(possib); % take random action on the ones you can take
         temp=size(vec);
@@ -39,7 +41,7 @@ for j=1:5
         end
         %
         % get feature for initial state
-        Fac = Features(s);
+        Fac = Features(s,2);
         % get quality function
         Q = w3'*Fac;
         vec = possibleaction(possib); % take random action on the ones you can take
@@ -69,7 +71,7 @@ for j=1:5
                 delta = r - w3(:,a)'*Fac;
             else
                 % get active features at next state
-                Facp = Features(sp);
+                Facp = Features(sp,2);
                 % compute next q function
                 Qp =  w3'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take
@@ -117,5 +119,5 @@ for j=1:5
             disp(r)
         end
     end
-    disp(Rate(1)/e)
+    % disp(Rate(1)/e)
 end

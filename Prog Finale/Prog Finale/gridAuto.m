@@ -45,17 +45,17 @@ if(won == 1 )
     r=1;
 end
 if( won == 0 && ~nz) % stato terminale tie game
-    r=0;
+    r=-0.5;
     Terminal=true;
 end
 
 sp=h;
-Fac=Features(sp);
+Fac=Features(sp,2);
 Qp=w2'*Fac;
 vec = possibleaction(possib); % take random action on the ones you can take
 temp=size(vec);
 %player 2 take action not random
-if rand < 0.2
+if rand() < 0.2
     ap=vec(randi(temp(2)));
 else
     ap = find(Qp == max(Qp(vec)), 1, 'first'); % player 2 take  only greedy action
@@ -90,7 +90,7 @@ end
 
 if (won == 0 && ~nz)    % tie game
     Terminal=true;
-    r=0;
+    r=-0.5;
 end
 if(won == 0 && nz) % nessuno ha ancora vinto e posso mettere altre pedine
     Terminal=false;

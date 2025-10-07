@@ -1,7 +1,7 @@
 %% Player 2 random learning
 function w3=Learning_random1(w3,lambda,gamma,epsilon)
 t=0.01;
-numEpisodes=3000;
+numEpisodes=5000;
 for j=1:5
     Rate=[0 0 0];
     for e = 1:numEpisodes
@@ -32,7 +32,7 @@ for j=1:5
         end
         %
         % get feature for initial state
-        Fac = Features(s);
+        Fac = Features(s,2);
         % get quality function
         Q = w3'*Fac;
         vec = possibleaction(possib); % take random action on the ones you can take
@@ -62,7 +62,7 @@ for j=1:5
                 delta = r - w3(:,a)'*Fac;
             else
                 % get active features at next state
-                Facp = Features(sp);
+                Facp = Features(sp,2);
                 % compute next q function
                 Qp =  w3'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take

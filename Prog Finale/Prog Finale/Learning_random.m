@@ -2,7 +2,7 @@
 function w=Learning_random(w,lambda,gamma,epsilon)
 A=7;
 t=0.01;
-numEpisodes=3000;
+numEpisodes=5000;
 for i=1:5
     Rate=[0 0 0];
     for e = 1:numEpisodes
@@ -13,7 +13,7 @@ for i=1:5
         % initialize eligibility traces
         z = zeros(size(w));
         % get feature for initial state
-        Fac = Features(s);
+        Fac = Features(s,1);
         % get quality function
         Q = w'*Fac;
         % take epsilon greedy actions
@@ -41,7 +41,7 @@ for i=1:5
                 delta = r - w(:,a)'*Fac;
             else
                 % get active features at next state
-                Facp = Features(sp);
+                Facp = Features(sp,1);
                 % compute next q function
                 Qp =  w'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take

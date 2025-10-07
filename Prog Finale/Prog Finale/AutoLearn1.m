@@ -1,18 +1,19 @@
-%player 1 autolearning 
-function [w,w3,Win_Rate]=AutoLearn1(A,gamma,alpha,lambda,w,w3)
-epsilon=0.1;
-Win_Rate=[];
+%% Player 1 Autolearning 
+function [w,w3]=AutoLearn1(A,gamma,~,lambda,w,w3)
+epsilon=0.2;
+t=0.01;
 for i=1:5
     Rate=[0 0 0];
     numEpisodes=500*i;
     for e = 1:numEpisodes
+        alpha=t*(1-(e/(numEpisodes+500))); % alpha dinamico
         % initialize the episode
         s = zeros(6,7);
         possib=ones(1,7);
         % initialize eligibility traces
         z = zeros(size(w));
         % get feature for initial state
-        Fac = Features(s);
+        Fac = Features(s,1);
         % get quality function
         Q = w'*Fac;
         % take epsilon greedy actions
@@ -40,7 +41,7 @@ for i=1:5
                 delta = r - w(:,a)'*Fac;
             else
                 % get active features at next state
-                Facp = Features(sp);
+                Facp = Features(sp,1);
                 % compute next q function
                 Qp =  w'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take
@@ -76,10 +77,6 @@ for i=1:5
                 disp(r)
             end
         end
-        % mi salvo il win rate ogni 1000 episodi
-        if mod(e, 500) == 0
-            Win_Rate=[Win_Rate Rate(1)/e];
-        end
         if mod(e,100000) == 0
             clf
             te=swapRows(sp);
@@ -88,5 +85,5 @@ for i=1:5
             disp(r)
         end
     end
-    disp(Rate(1)/e)
+    % disp(Rate(1)/e)
 end

@@ -1,5 +1,4 @@
-function threes = count_threes(s)
-player=1;
+function threes = count_threes(s,player)
     % Conta le configurazioni di tre pezzi consecutivi per un giocatore specifico
     threes = 0;
     
