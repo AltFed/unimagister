@@ -12,7 +12,7 @@ gamma = 0.9;
 % eligibility traces parameter
 lambda = 0.2;
 % dimension of the weight vector
-d = 244;
+d = 332;
 %% Player 1 policy
 % initialize the weigth vector
 w = randn(d,A);
@@ -31,7 +31,7 @@ for e = 1:numEpisodes
     % initialize eligibility traces
     z = zeros(size(w));
     % get feature for initial state
-    Fac = Features(s,1);
+    Fac = Features(s);
     % get quality function
     Q = w'*Fac;
     % take epsilon greedy actions
@@ -63,7 +63,7 @@ for e = 1:numEpisodes
             delta = r - w(:,a)'*Fac;
         else
             % get active features at next state
-            Facp = Features(sp,1);
+            Facp = Features(sp);
             % compute next q function
             Qp =  w'*Facp;
             vec = possibleaction(possib); % take random action on the ones you can take
@@ -161,7 +161,7 @@ for e = 1:numEpisodes
     end
     %
     % get feature for initial state
-    Fac = Features(s,2);
+    Fac = Features(s);
     % get quality function
     Q2 = w3'*Fac;
     % player 2 take epsilon greedy actions
@@ -191,7 +191,7 @@ for e = 1:numEpisodes
             delta = r - w3(:,a)'*Fac;
         else
             % get active features at next state
-            Facp = Features(sp,2);
+            Facp = Features(sp);
             % compute next q function
             Qp2 =  w3'*Facp;
             vec = possibleaction(possib); % take random action on the ones you can take
@@ -328,7 +328,7 @@ for i= 1:5
     for e = 1:numEpisodes
         s = zeros(6,7);
         possib=ones(1,7);
-        Fac = Features(s,1);
+        Fac = Features(s);
         % get quality function
         Q = w'*Fac;
         if rand < epsilon
@@ -348,7 +348,7 @@ for i= 1:5
                     Rate(3)=Rate(3)+1;
                 end
             else
-                Facp = Features(sp,1);
+                Facp = Features(sp);
                 Qp = w'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take
                 a = find(Qp == max(Qp(vec)), 1, 'first'); % take greedy action QP(vec) prendo il max  solo delle azioni possibili

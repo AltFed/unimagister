@@ -1,33 +1,62 @@
-%% Player 1 Autolearning 
-function [w,w3,Win_Rate]=AutoLearn1(A,gamma,~,lambda,w,w3)
+%% Player 2 Autolearning
+function [w,w3]=AutoLearn2(~,gamma,~,lambda,w,w3)
 epsilon=0.2;
 t=0.01;
 Win_Rate=[];
-for i=1:5
+ for j=1:5
     Rate=[0 0 0];
-    numEpisodes=500*i;
+    numEpisodes=500*j;
     for e = 1:numEpisodes
         alpha=t*(1-(e/(numEpisodes+500))); % alpha dinamico
         % initialize the episode
         s = zeros(6,7);
         possib=ones(1,7);
         % initialize eligibility traces
-        z = zeros(size(w));
+        z = zeros(size(w3));
+        % player 1 prende una azione random all inizio
+        T=Features(s,1);
+        QQ=w'*T;
+        vec = possibleaction(possib); % take random action on the ones you can take
+        temp=size(vec);
+        if rand < epsilon
+            a=vec(randi(temp(2)));
+        else
+            a= find(QQ == max(QQ(vec)), 1, 'first'); % take greedy action QP(vec) prendo il max  solo delle azioni possibili
+        end
+        %
+        for i=1:1:6
+            if(s(i,a)==0 && i==6) %verifica dell'ultima linea
+                s(i,a)=1;
+                break;
+            end
+            if(s(i,a)~=0) %verifica valida fino alla penultima riga
+                if(possib(a)==1)
+                    s(i-1,a)=1;
+                    if(i-1==1)
+                        possib(a)=0;
+                    end
+                    break;
+                end
+            end
+        end
+        %
         % get feature for initial state
-        Fac = Features(s,1);
+        Fac = Features(s,2);
         % get quality function
-        Q = w'*Fac;
+        Q = w3'*Fac;
+        vec = possibleaction(possib); % take random action on the ones you can take
+        temp=size(vec);
         % take epsilon greedy actions
         if rand < epsilon
-            a = randi(A); % take random action
+             a=vec(randi(temp(2))); % take random action
         else
-            a = find(Q == max(Q), 1, 'first'); % take greedy action wrt Q
+            a = find(Q == max(Q(vec)), 1, 'first'); % take greedy action wrt Q
         end
         % at the beginning is not terminal
         isTerminal = false;
         while ~isTerminal
             % take action a and observe sp and r
-            [possib,sp,r,isTerminal]=gridAuto(possib,s,a,w3);
+            [possib,sp,r,isTerminal]=gridAuto2(possib,s,a,w);
             if isTerminal
                 % % mi salvo quanto volte vinco/perdo/pari lo dovrei fare sulla
                 % policy finale che ottengo
@@ -39,12 +68,12 @@ for i=1:5
                     Rate(3)=Rate(3)+1;
                 end
                 % impose that next value is 0
-                delta = r - w(:,a)'*Fac;
+                delta = r - w3(:,a)'*Fac;
             else
                 % get active features at next state
-                Facp = Features(sp,1);
+                Facp = Features(sp,2);
                 % compute next q function
-                Qp =  w'*Facp;
+                Qp =  w3'*Facp;
                 vec = possibleaction(possib); % take random action on the ones you can take
                 temp=size(vec);
                 % take epsilon greedy action
@@ -54,14 +83,14 @@ for i=1:5
                     ap = find(Qp == max(Qp(vec)), 1, 'first'); % take greedy action QP(vec) prendo il max  solo delle azioni possibili
                 end
                 % compute temporal difference error
-                delta = r + gamma*Qp(ap) -  w(:,a)'*Fac;
+                delta = r + gamma*Qp(ap) -  w3(:,a)'*Fac;
             end
             % update elegibility traces
             z = gamma*lambda*z;
             z(:,a) = z(:,a) + Fac;
 
             % update weigth vector
-            w = w + alpha*delta*z;
+            w3 = w3 + alpha*delta*z;
 
             if ~isTerminal
                 % update state, action and features
@@ -77,9 +106,10 @@ for i=1:5
                 pause(1)
                 disp(r)
             end
-            if mod(e, 500) == 0
-            Win_Rate=[Win_Rate Rate(1)/e];
         end
+        % mi salvo il win rate ogni 1000 episodi
+        if mod(e, 500) == 0
+            Win_Rate=[Win_Rate Rate(1)/e];
         end
         if mod(e,100000) == 0
             clf
