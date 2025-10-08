@@ -1,31 +1,65 @@
-function [possib_next, sp, r, Terminal] = gridAuto(possib, s, a, w_opponent)
-% Ambiente per l'addestramento in self-play, versione ottimizzata.
-    AGENTE = 1; AVVERSARIO = 2;
+function [possib,sp,r,Terminal]=gridAuto(possib,s,a,w2)
+    colore_agente = 1;
+    colore_avversario = 2;
 
-    [s_after_agent, r_agent, Terminal, ins_agent] = eseguiMossa(s, a, AGENTE);
+    % =================== MULTA PER STUPIDITÀ ===================
+    threat_move = find_critical_move(s, colore_avversario);
+    if ~isempty(threat_move) && a ~= threat_move
+        sp = s; 
+        Terminal = true;
+        r = -10; % Punizione immediata e pesante!
+        for i=6:-1:1, if sp(i,a)==0, sp(i,a)=colore_agente; break; end, end
+        return; 
+    end
+    % =============================================================
     
-    if Terminal
-        sp = s_after_agent; r = r_agent;
-        possib(ins_agent(2)) = (s_after_agent(1, ins_agent(2)) == 0);
-        possib_next = possib; return;
+    h=s;
+    Terminal=false;
+    ins=[];
+    
+    % Mossa dell'Agente (P1)
+    for i=6:-1:1
+        if(h(i,a)==0)
+            h(i,a)=colore_agente;
+            ins=[i,a];
+            if i == 1, possib(a) = 0; end
+            break;
+        end
+    end
+    sp=h;
+
+    won=checker(possib,h,colore_agente,ins);
+    nz = any(possib(:));
+    if(won == 1 ), Terminal = true; r=1; return; end
+    if(~nz), Terminal=true; r=0; return; end
+    
+    % Mossa dell'Avversario (P2)
+    Fac=Features(sp,colore_avversario);
+    Qp=w2'*Fac;
+    vec = possibleaction(possib);
+    if isempty(vec), Terminal=true; r=0; return; end
+    
+    if rand() < 0.2
+        ap=vec(randi(length(vec)));
+    else
+        [~, ap_idx] = max(Qp(vec));
+        ap = vec(ap_idx);
     end
     
-    possib(ins_agent(2)) = (s_after_agent(1, ins_agent(2)) == 0);
-    
-    Fac_opp = Features(s_after_agent, AVVERSARIO);
-    Qp_opp = w_opponent' * Fac_opp;
-    vec = find(possib);
-    [~, ap_idx] = max(Qp_opp(vec));
-    a_opponent = vec(ap_idx);
-
-    [s_final, r_opponent, Terminal, ins_opp] = eseguiMossa(s_after_agent, a_opponent, AVVERSARIO);
-    
-    if Terminal && r_opponent == 1, r = -1;
-    elseif Terminal, r = 0.5;
-    else, r = 0;
+    ins_opp=[];
+    for i=6:-1:1
+        if(sp(i,ap)==0)
+            sp(i,ap)=colore_avversario;
+            ins_opp=[i,ap];
+            if i == 1, possib(ap) = 0; end
+            break;
+        end
     end
 
-    sp = s_final;
-    possib(ins_opp(2)) = (s_final(1, ins_opp(2)) == 0);
-    possib_next = possib;
+    won=checker(possib,sp,colore_avversario,ins_opp);
+    nz = any(possib(:));
+    if (won == 2), Terminal=true; r=-1;
+    elseif (~nz), Terminal=true; r=0;
+    else, Terminal=false; r=0;
+    end
 end
