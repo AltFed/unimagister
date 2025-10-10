@@ -5,7 +5,6 @@ function [critical_move, move_type] = find_critical_move(s, player)
 
     critical_move = [];
     move_type = 'none';
-    opponent = 3 - player; % Calcola l'avversario (1->2, 2->1)
 
     % Determina le mosse possibili
     possib = ones(1, 7);
@@ -31,12 +30,20 @@ function [critical_move, move_type] = find_critical_move(s, player)
         
         if ~isempty(ins) && checker(temp_possib, temp_s, player, ins) > 0
             critical_move = a;
-            move_type = 'win';
+            if player == 1
+                move_type = 'win';
+            else
+                move_type = 'block';
+            end
             return;
         end
     end
 
     % --- REGOLA 2: Controlla se l'avversario sta per vincere (e blocca) ---
+    % Nota: Questa parte è ridondante se la funzione viene chiamata correttamente
+    % da 'gioca.m' prima per il giocatore 1 e poi per il 2, ma la lasciamo
+    % per completezza se la funzione venisse usata in altri contesti.
+    opponent = 3 - player;
     for i = 1:length(available_actions)
         a = available_actions(i);
         temp_s = s;
@@ -53,7 +60,12 @@ function [critical_move, move_type] = find_critical_move(s, player)
         
         if ~isempty(ins) && checker(temp_possib, temp_s, opponent, ins) > 0
             critical_move = a;
-            move_type = 'block';
+            % Se il player originale era 1, questa è una mossa 'block'
+            if player == 1
+                move_type = 'block';
+            else % Se il player originale era 2, questa è una mossa 'win' per l'agente
+                move_type = 'win';
+            end
             return;
         end
     end

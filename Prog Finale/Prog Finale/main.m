@@ -3,9 +3,9 @@ close all;
 clc;
 %% 1. Inizializzazione dei Parametri
 A = 7;                          % Numero di azioni
-numEpisodes = 10000000;           % Aumentato per un addestramento serio
+numEpisodes = 20000000;           % Aumentato per un addestramento serio
 epsilon = 0.9;                  % Epsilon iniziale alto
-gamma = 0.6;                    % Fattore di sconto
+gamma = 0.9;                    % Fattore di sconto
 lambda = 0.7;                   % Parametro tracce di eligibilità
 d = 64;                         % Dimensione corretta
 t=0.01;                         % Tasso di apprendimento iniziale
