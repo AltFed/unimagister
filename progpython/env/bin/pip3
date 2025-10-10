@@ -1,4 +1,4 @@
-#!/home/fede/unimagister/progpython/env/bin/python3
+#!/Users/davspiri/Documents/GitHub/RI/progpython/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
