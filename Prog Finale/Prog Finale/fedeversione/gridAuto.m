@@ -1,65 +1,92 @@
-function [possib,sp,r,Terminal]=gridAuto(possib,s,a,w2)
-    colore_agente = 1;
-    colore_avversario = 2;
+function [possib_next, sp, r, Terminal] = gridAuto(possib, s, a, w_opponent)
+% Ambiente per l'addestramento in self-play con REWARD SHAPING.
+% L'agente riceve piccoli premi/penalità per guidare l'apprendimento.
 
-    % =================== MULTA PER STUPIDITÀ ===================
-    threat_move = find_critical_move(s, colore_avversario);
-    if ~isempty(threat_move) && a ~= threat_move
-        sp = s; 
-        Terminal = true;
-        r = -10; % Punizione immediata e pesante!
-        for i=6:-1:1, if sp(i,a)==0, sp(i,a)=colore_agente; break; end, end
-        return; 
+    % --- PARAMETRI DELLO SHAPING (puoi modificarli per sperimentare) ---
+    REWARD_ATTACK = 0.1;    % Premio per aver creato un proprio tris
+    PENALTY_DEFENSE = -0.2; % Penalità per aver concesso un tris all'avversario
+    
+    % --- COSTANTI GIOCATORI ---
+    AGENTE = 1;
+    AVVERSARIO = 2;
+
+    % Inizializza la ricompensa di shaping per questo turno a zero
+    reward_shaping = 0;
+
+    % --- 1. MOSSA DELL'AGENTE ---
+    
+    % Contiamo quanti tris aveva l'agente PRIMA della sua mossa
+    num_threes_agent_prima = count_threes(s, AGENTE);
+    
+    % L'agente esegue la sua mossa 'a'
+    [s_after_agent, r_agent, Terminal, ins_agent] = eseguiMossa(s, a, AGENTE);
+
+    % Contiamo i tris dell'agente DOPO la sua mossa
+    num_threes_agent_dopo = count_threes(s_after_agent, AGENTE);
+    
+    % Se il numero di tris è aumentato, diamo un premio!
+    if num_threes_agent_dopo > num_threes_agent_prima
+        reward_shaping = reward_shaping + REWARD_ATTACK;
     end
-    % =============================================================
     
-    h=s;
-    Terminal=false;
-    ins=[];
+    % Se la mossa dell'agente ha terminato la partita (vittoria/pareggio)
+    if Terminal
+        sp = s_after_agent;
+        r = r_agent + reward_shaping; % La ricompensa finale include lo shaping
+        possib(ins_agent(2)) = (s_after_agent(1, ins_agent(2)) == 0);
+        possib_next = possib;
+        return;
+    end
     
-    % Mossa dell'Agente (P1)
-    for i=6:-1:1
-        if(h(i,a)==0)
-            h(i,a)=colore_agente;
-            ins=[i,a];
-            if i == 1, possib(a) = 0; end
-            break;
+    % Aggiorna le colonne disponibili
+    possib(ins_agent(2)) = (s_after_agent(1, ins_agent(2)) == 0);
+
+    % --- 2. MOSSA DELL'AVVERSARIO ---
+    
+    % Contiamo i tris dell'avversario PRIMA della sua mossa
+    num_threes_opp_prima = count_threes(s_after_agent, AVVERSARIO);
+    
+    % L'avversario sceglie la sua mossa migliore (greedy)
+    Fac_opp = Features(s_after_agent, AVVERSARIO);
+    Qp_opp = w_opponent' * Fac_opp;
+    vec = find(possib);
+    
+    % Controllo di sicurezza nel caso non ci siano più mosse disponibili
+    if isempty(vec)
+        sp = s_after_agent; r = 0.5; Terminal = true; possib_next = possib; return;
+    end
+
+    [~, ap_idx] = max(Qp_opp(vec));
+    a_opponent = vec(ap_idx);
+
+    % L'avversario esegue la sua mossa
+    [s_final, r_opponent, Terminal, ins_opp] = eseguiMossa(s_after_agent, a_opponent, AVVERSARIO);
+
+    % Contiamo i tris dell'avversario DOPO la sua mossa
+    num_threes_opp_dopo = count_threes(s_final, AVVERSARIO);
+    
+    % Se il numero di tris dell'avversario è aumentato, diamo una penalità all'agente!
+    if num_threes_opp_dopo > num_threes_opp_prima
+        reward_shaping = reward_shaping + PENALTY_DEFENSE;
+    end
+
+    % --- 3. RICOMPENSA FINALE DEL TURNO ---
+    
+    % La ricompensa base del gioco è 0, a meno che la partita non finisca qui
+    r_game = 0;
+    if Terminal % Se la mossa dell'avversario ha terminato la partita
+        if r_opponent == 1      % L'avversario ha vinto
+            r_game = -1;
+        else                    % Pareggio
+            r_game = 0.5;
         end
     end
-    sp=h;
+    
+    % La ricompensa totale che l'agente riceve è la somma di quella di gioco e dello shaping
+    r = r_game + reward_shaping;
 
-    won=checker(possib,h,colore_agente,ins);
-    nz = any(possib(:));
-    if(won == 1 ), Terminal = true; r=1; return; end
-    if(~nz), Terminal=true; r=0; return; end
-    
-    % Mossa dell'Avversario (P2)
-    Fac=Features(sp,colore_avversario);
-    Qp=w2'*Fac;
-    vec = possibleaction(possib);
-    if isempty(vec), Terminal=true; r=0; return; end
-    
-    if rand() < 0.2
-        ap=vec(randi(length(vec)));
-    else
-        [~, ap_idx] = max(Qp(vec));
-        ap = vec(ap_idx);
-    end
-    
-    ins_opp=[];
-    for i=6:-1:1
-        if(sp(i,ap)==0)
-            sp(i,ap)=colore_avversario;
-            ins_opp=[i,ap];
-            if i == 1, possib(ap) = 0; end
-            break;
-        end
-    end
-
-    won=checker(possib,sp,colore_avversario,ins_opp);
-    nz = any(possib(:));
-    if (won == 2), Terminal=true; r=-1;
-    elseif (~nz), Terminal=true; r=0;
-    else, Terminal=false; r=0;
-    end
+    % Aggiorna lo stato finale e le colonne disponibili per il prossimo turno
+    sp = s_final;
+    possib(ins_opp(2)) = (s_final(1, ins_opp(2)) == 0);
+    possib_next = possib;
 end

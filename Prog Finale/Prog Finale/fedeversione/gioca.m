@@ -39,7 +39,7 @@ while ~isTerminal
     Q = w' * Fac;
     
     % Scegli l'azione migliore (greedy, senza esplorazione)
-    vec = possibleaction(possib);
+    vec = find(possib);
     [~, best_action_index] = max(Q(vec));
     a = vec(best_action_index);
     
@@ -52,7 +52,7 @@ while ~isTerminal
     
     % Mostra la scacchiera aggiornata dopo la tua mossa
     clf;
-    temp_board = swapRows(s);
+    temp_board = flipud(s);
     in_board(temp_board, 7, 6);
     
     % Controlla l'esito della partita

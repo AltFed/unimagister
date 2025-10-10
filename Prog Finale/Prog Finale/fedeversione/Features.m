@@ -1,20 +1,15 @@
 function X = Features(s, player)
-    column_features_bin = extract_column_features(s);
-    my_threes = count_threes(s, player); % Feature per l'attacco
+% Assembla il vettore finale delle features numeriche.
+    opponent = 3 - player;
 
-    if player == 1
-        opponent = 2;
-    else
-        opponent = 1;
-    end
-
-    % --- NUOVA FEATURE PER LA DIFESA ---
-    % Sostituiamo il conteggio dei tris con il conteggio delle minacce di vittoria
+    % 1. Conteggio pezzi in ogni colonna (14 features)
+    column_features = extract_column_features(s);
+    % 2. Conteggio dei "tris" per l'attacco (1 feature)
+    my_threes = count_threes(s, player);
+    % 3. Conteggio delle minacce avversarie per la difesa (1 feature)
     opponent_threats = count_winning_threats(s, opponent);
-    % --- FINE MODIFICA ---
+    % 4. Controllo della colonna centrale (1 feature)
+    center_control = get_center_control(s, player);
 
-    % Il vettore finale ora contiene un segnale di attacco e uno di difesa
-    t = [column_features_bin; my_threes; opponent_threats];
-
-    X = t;
+    X = [column_features; my_threes; opponent_threats; center_control];
 end
