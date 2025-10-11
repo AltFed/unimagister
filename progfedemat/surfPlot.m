@@ -3,7 +3,7 @@ clear; clc; close all;
 
 % Carica la Q-Table addestrata
 try
-    load('q_table_connect4.mat', 'QTable');
+    load('master_q_table.mat', 'QTable');
     fprintf('Q-Table caricata con successo!\n');
 catch
     error('File q_table_connect4.mat non trovato. Esegui prima lo script di addestramento.');

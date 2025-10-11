@@ -9,8 +9,8 @@ epsilon = 0.9;              % Probabilità iniziale di esplorazione (mossa casua
 epsilonDecay = 0.99995;      % Tasso di decadimento di epsilon (per ridurre l'esplorazione nel tempo)
 minEpsilon = 0.01;          % Valore minimo di epsilon
 
-episodesRandom = 10000;     % Numero di partite contro un avversario casuale
-episodesSelfPlay = 200000;   % Numero di partite contro sé stesso
+episodesRandom = 100000;     % Numero di partite contro un avversario casuale
+episodesSelfPlay = 0;   % Numero di partite contro sé stesso
 totalEpisodes = episodesRandom + episodesSelfPlay;
 
 % Inizializzazione della Q-Table (mappa per flessibilità) e storico ricompense
