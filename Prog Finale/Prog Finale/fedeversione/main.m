@@ -24,7 +24,7 @@ for e = 1:numEpisodes
     if current_epsilon < 0.01, current_epsilon = 0.01; end
     
     % Aggiorna l'avversario ogni 100 episodi per un apprendimento più dinamico
-    if mod(e, 1000) == 0
+    if mod(e, 10000) == 0
         fprintf('Episodio %d/%d: Aggiornamento policy avversario. Epsilon attuale: %.4f\n', e, numEpisodes, current_epsilon);
         w_opponent = w;
     end
