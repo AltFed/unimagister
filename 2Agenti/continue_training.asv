@@ -1,0 +1,61 @@
+% continue_cross_training.m
+% Carica gli agenti 1 e 2 e continua il loro addestramento reciproco.
+clear; clc; close all;
+
+%% Carica gli Agenti Esistenti
+fprintf('--- Caricamento degli agenti esistenti ---\n');
+
+try
+    load('q_table_agent1_final.mat', 'QTable_agent1');
+    QTable_agent1 = QTable_agent1; % Rinomina per chiarezza
+    fprintf('Caricato Agente 1 (primo a muovere).\n');
+catch
+    error('File "q_table_agent1_final.mat" non trovato. Esegui prima lo script di addestramento completo.');
+end
+
+try
+    load('q_table_agent2_final.mat', 'QTable_agent2_final');
+    QTable_agent2 = QTable_agent2_final; % Rinomina per chiarezza
+    fprintf('Caricato Agente 2 (secondo a muovere).\n');
+catch
+    error('File "q_table_agent2_final.mat" non trovato. Esegui prima lo script di addestramento completo.');
+end
+
+%% Chiedi all'Utente il Numero di Episodi
+fprintf('\n');
+prompt = 'Inserisci per quanti episodi aggiuntivi vuoi continuare l''addestramento incrociato (es. 500000): ';
+additional_episodes = input(prompt);
+
+if isempty(additional_episodes) || ~isnumeric(additional_episodes) || additional_episodes <= 0
+    fprintf('Input non valido. Interruzione dello script.\n');
+    return;
+end
+
+% Dividiamo gli episodi a metà per i due cicli di addestramento
+cross_train_episodes = round(additional_episodes / 2);
+
+%% Esegui Ciclo di Addestramento Aggiuntivo
+fprintf('\n--- Inizio ciclo di addestramento aggiuntivo per %d episodi totali ---\n', additional_episodes);
+tic;
+
+% 1. L'agente 1 (P1) si allena contro l'agente 2 (P2)
+fprintf('Addestramento Agente 1 vs. Agente 2...\n');
+QTable_agent1_updated = train_agent_core(cross_train_episodes, QTable_agent1, QTable_agent2, 1);
+
+% 2. L'agente 2 (P2) si allena contro la versione aggiornata dell'agente 1 (P1)
+fprintf('Addestramento Agente 2 vs. Agente 1 (aggiornato)...\n');
+QTable_agent2_updated = train_agent_core(cross_train_episodes, QTable_agent2, QTable_agent1_updated, 2);
+
+fprintf('Ciclo di addestramento completato in %.2f minuti.\n', toc/60);
+
+%% Salvataggio dei Progressi
+fprintf('Salvataggio dei nuovi pesi...\n');
+
+QTable_agent1 = QTable_agent1_updated;
+save('q_table_agent1_final.mat', 'QTable_agent1');
+
+QTable_agent2_final = QTable_agent2_updated;
+save('q_table_agent2_final.mat', 'QTable_agent2_final');
+
+fprintf('\nAddestramento completato e file aggiornati con successo!\n');
+fprintf('Puoi eseguire di nuovo questo script per migliorare ulteriormente gli agenti.\n');
