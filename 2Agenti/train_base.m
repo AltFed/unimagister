@@ -44,7 +44,7 @@ fprintf('--- FASE 1: Agente 2 specializzato e salvato. ---\n\n');
 %% FASE 2: Addestramento Incrociato (Agenti vs. Agenti)
 cross_train_episodes = 1000000;
 fprintf('--- FASE 2: Inizio addestramento Agente 1 vs. Agente 2 ---\n');
-QTable_agent1_specialized = train_agent_core(cross_train_episodes, QTable_agent1, QTable_agent2, 1, params_vs_agent),212;
+QTable_agent1_specialized = train_agent_core(cross_train_episodes, QTable_agent1, QTable_agent2, 1, params_vs_agent,212);
 save('q_table_agent1_specialized.mat', 'QTable_agent1_specialized');
 fprintf('--- FASE 2: Addestramento di Agente 1 completato. ---\n\n');
 
