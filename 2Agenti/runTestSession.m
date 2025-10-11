@@ -1,37 +1,45 @@
 % runTestSession.m
-% Versione 4: Aggiunta la modalità di gioco Utente vs. Agente ("me")
+% Versione 5: Selezione dell'agente (1 o 2) e rispetto del ruolo specializzato.
 clear; clc; close all;
 
-% Carica la Q-Table addestrata
-try
-    load('master_q_table.mat', 'QTable');
-    fprintf('Q-Table caricata con successo!\n');
-catch
-    error('File q_table_connect4.mat non trovato. Esegui prima lo script di addestramento.');
+%% --- FASE 1: Scelta e Caricamento dell'Agente ---
+agent_choice = input('Quale agente vuoi testare? (1 per il primo giocatore, 2 per il secondo): ');
+
+if agent_choice == 1
+    agent_role = 1;
+    q_table_file = 'q_table_agent1_specialized.mat';
+    fprintf('Hai scelto l''Agente 1 (specialista della prima mossa).\n');
+elseif agent_choice == 2
+    agent_role = 2;
+    q_table_file = 'q_table_agent2_specialized.mat';
+    fprintf('Hai scelto l''Agente 2 (specialista della seconda mossa).\n');
+else
+    error('Scelta non valida');
 end
 
-% Inizializzazione delle statistiche per le partite Agente vs. Random
+try
+    load(q_table_file, 'QTable');
+    fprintf('Q-Table "%s" caricata con successo!\n', q_table_file);
+catch
+    error('File Q-Table "%s" non trovato', q_table_file);
+end
+
+%% --- FASE 2: Loop Principale della Sessione ---
 winHistory_vs_Random = [];
 rewardHistory_vs_Random = [];
 gameCount_vs_Random = 0;
 
-% Loop principale della sessione
 while true
-    
-    % --- Chiedi all'utente la prossima mossa ---
-    prompt = '\nScrivi "me" per giocare, un numero (es. 1000) per simulare, "next" per una partita vs Random, o "stop" per terminare: ';
+    prompt = '\nScrivi "me" per giocare, un numero (es. 1000) per simulare, "next" per una partita vs Random, o "stop": ';
     userInput = input(prompt, 's');
     numGames_sim = str2double(userInput);
     
-    % --- Interpreta il comando dell'utente ---
-    if strcmpi(userInput, 'stop')
-        % Esce dal loop per andare alla sezione grafici
-        break;
+    if strcmpi(userInput, 'stop'), break; end
         
-    elseif strcmpi(userInput, 'me')
+    if strcmpi(userInput, 'me')
         % --- Modalità Utente vs. Agente ---
         fprintf('\n--- Inizia la partita contro l''agente! ---\n');
-        playAgainstHuman(QTable); % Chiama la funzione locale per la partita
+        playAgainstHuman(QTable, agent_role); % Passa il ruolo dell'agente
         fprintf('\n--- Partita terminata. Torno al menu principale. ---\n');
         
     elseif ~isnan(numGames_sim) && numGames_sim > 0
@@ -39,44 +47,49 @@ while true
         fprintf('\nAvvio simulazione automatica per %d partite. Attendere...\n', numGames_sim);
         tic;
         for i = 1:numGames_sim
-            [sim_winner, ~] = playSingleGame(QTable);
-            if sim_winner == 1 % Agente
+            [sim_winner, ~] = playSingleGame(QTable, agent_role); % Passa il ruolo dell'agente
+            
+            % Aggiorna le statistiche in base al ruolo
+            if sim_winner == agent_role
                 winHistory_vs_Random(end+1) = 1;
                 rewardHistory_vs_Random(end+1) = 100;
-            else % Sconfitta o Pareggio
+            elseif sim_winner == 0
                 winHistory_vs_Random(end+1) = 0;
-                rewardHistory_vs_Random(end+1) = (sim_winner == 0) * -10 + (sim_winner == 2) * -100;
+                rewardHistory_vs_Random(end+1) = -10;
+            else % L'agente ha perso
+                winHistory_vs_Random(end+1) = 0;
+                rewardHistory_vs_Random(end+1) = -100;
             end
         end
         elapsedTime = toc;
         fprintf('--- Simulazione Completata in %.2f secondi ---\n', elapsedTime);
         break; % Esce dal loop e va ai grafici
         
-    else % Se l'utente scrive "next" o qualsiasi altra cosa
+    else % "next"
         % --- Modalità Interattiva (Agente vs. Random) ---
         gameCount_vs_Random = gameCount_vs_Random + 1;
-        [winner, finalBoard] = playSingleGame(QTable);
+        [winner, finalBoard] = playSingleGame(QTable, agent_role); % Passa il ruolo
         
         plotBoard(finalBoard);
-        if winner == 1
+        if winner == agent_role
             resultMsg = 'Agente ha VINTO';
             winHistory_vs_Random(end+1) = 1;
             rewardHistory_vs_Random(end+1) = 100;
-        elseif winner == 2
-            resultMsg = 'Agente ha PERSO';
-            winHistory_vs_Random(end+1) = 0;
-            rewardHistory_vs_Random(end+1) = -100;
-        else
+        elseif winner == 0
             resultMsg = 'PAREGGIO';
             winHistory_vs_Random(end+1) = 0;
             rewardHistory_vs_Random(end+1) = -10;
+        else
+            resultMsg = 'Agente ha PERSO';
+            winHistory_vs_Random(end+1) = 0;
+            rewardHistory_vs_Random(end+1) = -100;
         end
         fprintf('Risultato Partita #%d vs Random: %s\n', gameCount_vs_Random, resultMsg);
         title(sprintf('Partita #%d vs Random: %s', gameCount_vs_Random, resultMsg));
     end
 end
 
-%% Sezione Grafici e Statistiche Finali (Solo per Agente vs. Random)
+%% --- FASE 3: Grafici e Statistiche Finali ---
 fprintf('\n--- Sessione Terminata ---\n');
 if ~isempty(winHistory_vs_Random)
     totalGamesPlayed = length(winHistory_vs_Random);
@@ -84,55 +97,67 @@ if ~isempty(winHistory_vs_Random)
     winRate = (totalWins / totalGamesPlayed) * 100;
     
     fprintf('Statistiche finali delle partite Agente vs. Random:\n');
+    fprintf('Agente testato: Agente %d\n', agent_role);
     fprintf('Partite totali giocate: %d\n', totalGamesPlayed);
-    fprintf('Vittorie totali dell''agente: %d\n', totalWins);
-    fprintf('>> PERCENTUALE DI VITTORIA COMPLESSIVA: %.2f%% <<\n', winRate);
+    fprintf('Vittorie totali: %.2f%% <<\n', winRate);
     
-    generatePlots(winHistory_vs_Random, rewardHistory_vs_Random);
+    generatePlots(winHistory_vs_Random, rewardHistory_vs_Random, agent_role);
 else
     fprintf('Nessuna partita Agente vs. Random è stata giocata.\n');
 end
-
 fprintf('\nScript terminato.\n');
 
+%% --- Funzioni Locali Modificate ---
 
-%% --- Funzioni Locali ---
-
-function [winner, board] = playSingleGame(QTable)
-    % Gioca una partita Agente (1) vs. Random (2)
+function [winner, board] = playSingleGame(QTable, agent_role)
+    % Gioca una partita Agente vs. Random rispettando il ruolo.
     board = createBoard();
-    currentPlayer = 1;
     done = false;
+    turn = 1;
+    
     while ~done
-        if currentPlayer == 1 % Agente
+        % Determina chi gioca in questo turno
+        if mod(turn, 2) == 1, currentPlayer = 1; else, currentPlayer = 2; end
+        
+        if currentPlayer == agent_role
+            % --- Turno dell'Agente ---
             state = boardToState(board);
             validMoves = getValidMoves(board);
             if isKey(QTable, state) && ~isempty(validMoves)
                 q_values = QTable(state);
-                [~, idx] = max(q_values(validMoves));
-                action = validMoves(idx);
+                valid_q = -inf(1,7); valid_q(validMoves) = q_values(validMoves);
+                [~, action] = max(valid_q);
             else, action = validMoves(randi(length(validMoves))); end
-        else % Random
+        else
+            % --- Turno del Giocatore Random ---
             validMoves = getValidMoves(board);
             action = validMoves(randi(length(validMoves)));
         end
+        
         [board, winner, done] = makeMove(board, action, currentPlayer);
-        if ~done, currentPlayer = 3 - currentPlayer; end
+        turn = turn + 1;
     end
 end
 
-function playAgainstHuman(QTable)
-    % Gestisce una partita Utente vs. Agente
+function playAgainstHuman(QTable, agent_role)
+    % Gestisce una partita Utente vs. Agente rispettando il ruolo.
     board = createBoard();
     done = false;
+    turn = 1;
+
+    % Assegna i ruoli in base alla scelta iniziale, senza chiederlo di nuovo
+    if agent_role == 1
+        agentPlayer = 1; humanPlayer = 2;
+        fprintf('L''agente è specializzato per la prima mossa, quindi inizierà lui.\n');
+    else
+        agentPlayer = 2; humanPlayer = 1;
+        fprintf('L''agente è specializzato per la seconda mossa, quindi inizierai tu.\n');
+    end
     
-    choice = input('Vuoi iniziare tu (1) o l''agente (2)? [1]: ');
-    if isempty(choice) || choice ~= 2, humanPlayer = 1; agentPlayer = 2;
-    else, humanPlayer = 2; agentPlayer = 1; end
-    
-    currentPlayer = 1;
     while ~done
         plotBoard(board);
+        if mod(turn, 2) == 1, currentPlayer = 1; else, currentPlayer = 2; end
+        
         if currentPlayer == humanPlayer
             title("Tocca a te!");
             validMoves = getValidMoves(board);
@@ -142,19 +167,18 @@ function playAgainstHuman(QTable)
                 action = input(prompt);
             end
         else % Turno dell'agente
-            title("L'agente sta pensando...");
-            pause(1);
+            title("L'agente sta pensando..."); pause(1);
             state = boardToState(board);
             validMoves = getValidMoves(board);
             if isKey(QTable, state) && ~isempty(validMoves)
                 q_values = QTable(state);
-                [~, idx] = max(q_values(validMoves));
-                action = validMoves(idx);
+                valid_q = -inf(1,7); valid_q(validMoves) = q_values(validMoves);
+                [~, action] = max(valid_q);
             else, action = validMoves(randi(length(validMoves))); end
         end
         
         [board, winner, done] = makeMove(board, action, currentPlayer);
-        if ~done, currentPlayer = 3 - currentPlayer; end
+        turn = turn + 1;
     end
     
     plotBoard(board);
@@ -163,12 +187,12 @@ function playAgainstHuman(QTable)
     else, msgbox('Pareggio!', 'Partita Finita'); end
 end
 
-function generatePlots(winHistory, rewardHistory)
+function generatePlots(winHistory, rewardHistory, agent_role)
     % Crea i grafici finali
     gameCount = length(winHistory);
     figure('Name', 'Ricompensa per Partita', 'NumberTitle', 'off');
     plot(rewardHistory, 'b.-');
-    title('Andamento Ricompensa (Agente vs. Random)');
+    title(sprintf('Andamento Ricompensa (Agente %d vs. Random)', agent_role));
     xlabel('Partita'); ylabel('Ricompensa'); grid on;
     
     windowSize = min(50, gameCount);
@@ -176,6 +200,6 @@ function generatePlots(winHistory, rewardHistory)
     
     figure('Name', 'Percentuale di Vittoria', 'NumberTitle', 'off');
     plot(movingAvgWinRate, 'r-', 'LineWidth', 2);
-    title(sprintf('Percentuale Vittoria vs. Random (Media Mobile su %d partite)', windowSize));
+    title(sprintf('Percentuale Vittoria Agente %d vs. Random (Media Mobile)', agent_role));
     xlabel('Partita'); ylabel('Vittoria (%)'); grid on; ylim([0 105]);
 end

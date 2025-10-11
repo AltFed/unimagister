@@ -31,12 +31,12 @@ fprintf('--- FASE 0: Agente di base creato e salvato in q_table_base.mat ---\n\n
 %% FASE 1: Specializzazione degli Agenti vs. Random
 agent_vs_random_episodes = 5000000;
 fprintf('--- FASE 1: Inizio specializzazione Agente 1 (primo a muovere) ---\n');
-QTable_agent1 = train_agent_core(agent_vs_random_episodes, QTable_base, 'random', 1, params_vs_random,12);
+QTable_agent1 = train_agent_core(agent_vs_random_episodes, QTable_base, 'random', 1, params_vs_random,11);
 save('q_table_agent1_specialized.mat', 'QTable_agent1');
 fprintf('--- FASE 1: Agente 1 specializzato e salvato. ---\n\n');
 
 fprintf('--- FASE 1: Inizio specializzazione Agente 2 (secondo a muovere) ---\n');
-QTable_agent2 = train_agent_core(agent_vs_random_episodes, QTable_base, 'random', 2, params_vs_random,21);
+QTable_agent2 = train_agent_core(agent_vs_random_episodes, QTable_base, 'random', 2, params_vs_random,12);
 save('q_table_agent2_specialized.mat', 'QTable_agent2');
 fprintf('--- FASE 1: Agente 2 specializzato e salvato. ---\n\n');
 
