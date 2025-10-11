@@ -36,11 +36,11 @@ tic;
 
 % 1. L'agente 1 (P1) si allena contro l'agente 2 (P2)
 fprintf('Addestramento Agente 1 vs. Agente 2...\n');
-QTable_agent1_updated = train_agent_core(cross_train_episodes, QTable_agent1, QTable_agent2, 1, params_vs_agent);
+QTable_agent1_updated = train_agent_core(cross_train_episodes, QTable_agent1, QTable_agent2, 1, params_vs_agent,12);
 
 % 2. L'agente 2 (P2) si allena contro la versione aggiornata dell'agente 1 (P1)
 fprintf('Addestramento Agente 2 vs. Agente 1 (aggiornato)...\n');
-QTable_agent2_updated = train_agent_core(cross_train_episodes, QTable_agent2, QTable_agent1_updated, 2, params_vs_agent);
+QTable_agent2_updated = train_agent_core(cross_train_episodes, QTable_agent2, QTable_agent1_updated, 2, params_vs_agent,21);
 
 fprintf('Ciclo di addestramento completato in %.2f minuti.\n', toc/60);
 
