@@ -1,6 +1,5 @@
 % run_advanced_training.m
 clear; clc; close all;
-
 %% Definizione dei Parametri di Addestramento
 
 % Strategia 1: "Esplorazione Aggressiva" - Per addestramento contro un avversario debole/casuale
@@ -29,7 +28,7 @@ fprintf('--- FASE 0: Agente di base creato e salvato in q_table_base.mat ---\n\n
 
 
 %% FASE 1: Specializzazione degli Agenti vs. Random
-agent_vs_random_episodes = 5000000;
+ agent_vs_random_episodes = 1000000;
 fprintf('--- FASE 1: Inizio specializzazione Agente 1 (primo a muovere) ---\n');
 QTable_agent1 = train_agent_core(agent_vs_random_episodes, QTable_base, 'random', 1, params_vs_random,11);
 save('q_table_agent1_specialized.mat', 'QTable_agent1');
@@ -49,7 +48,7 @@ save('q_table_agent1_specialized.mat', 'QTable_agent1_specialized');
 fprintf('--- FASE 2: Addestramento di Agente 1 completato. ---\n\n');
 
 fprintf('--- FASE 2: Inizio addestramento Agente 2 vs. Agente 1 ---\n');
-QTable_agent2_specialized = train_agent_core(cross_train_episodes2, QTable_agent2, QTable_agent1_specialized, 2, params_vs_agent,221);
+QTable_agent2_specialized = train_agent_core(cross_train_episodes, QTable_agent2, QTable_agent1_specialized, 2, params_vs_agent,221);
 save('q_table_agent2_specialized.mat', 'QTable_agent2_specialized');
 fprintf('--- FASE 2: Addestramento di Agente 2 completato. ---\n\n');
 

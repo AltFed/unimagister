@@ -1,28 +1,38 @@
 % runTestSession.m
-% Versione 6: Aggiunta modalità "Confronto" per testare entrambi gli agenti.
+% Versione 7: Corretto il bug nel caricamento della Q-Table.
 clear; clc; close all;
 
-%% --- FASE 1: Scelta dell'Agente o del Confronto ---
+%% --- FASE 1: Scelta e Caricamento dell'Agente ---
 prompt = 'Cosa vuoi fare? (1: Test Agente 1, 2: Test Agente 2, 3: Confronto automatico di entrambi): ';
 agent_choice = input(prompt);
 
+if agent_choice == 1
+    agent_role = 1;
+    q_table_file = 'q_table_agent1_specialized.mat'; % O q_table_agent1_specialized.mat se non hai ancora la versione final
+elseif agent_choice == 2
+    agent_role = 2;
+    q_table_file = 'q_table_agent2_specialized.mat'; % O q_table_agent2_specialized.mat
+else
+    % La scelta 3 viene gestita dopo, qui prepariamo per 1 o 2
+    agent_role = 0; % Valore sentinella
+end
+
 % --- Logica principale basata sulla scelta ---
-if agent_choice == 1 || agent_choice == 2
-    % --- Modalità Test Singolo Agente (Logica esistente) ---
-    if agent_choice == 1
-        agent_role = 1;
-        q_table_file = 'q_table_agent1_specialized.mat';
-    else
-        agent_role = 2;
-        q_table_file = 'q_table_agent2_specialized.mat';
-    end
-    
+if agent_role == 1 || agent_role == 2
+    % --- Modalità Test Singolo Agente ---
+    fprintf('Hai scelto l''Agente %d (specialista della mossa %d).\n', agent_role, agent_role);
+
+    % === BLOCCO DI CARICAMENTO CORRETTO ===
     try
-        load(q_table_file, 'QTable');
+        loaded_data = load(q_table_file); % Carica l'intero contenuto del file in una struct
+        field_names = fieldnames(loaded_data); % Trova i nomi delle variabili nel file (dovrebbe essercene solo una)
+        QTable = loaded_data.(field_names{1}); % Estrai la prima (e unica) variabile: questa è la nostra Q-Table
         fprintf('Q-Table "%s" caricata con successo!\n', q_table_file);
-    catch
-        error('File Q-Table "%s" non trovato. Assicurati di aver completato l''addestramento.', q_table_file);
+    catch ME
+        fprintf('Errore durante il caricamento del file: %s\n', ME.message);
+        error('File Q-Table "%s" non trovato o corrotto. Assicurati di aver completato l''addestramento.', q_table_file);
     end
+    % ======================================
     
     % Loop Interattivo
     runInteractiveSession(QTable, agent_role);
@@ -38,7 +48,7 @@ end
 fprintf('\nScript terminato.\n');
 
 
-%% --- Funzioni Locali Principali ---
+%% --- Funzioni Locali (invariate) ---
 
 function runInteractiveSession(QTable, agent_role)
     % Gestisce il loop interattivo per un singolo agente
@@ -94,13 +104,12 @@ function runInteractiveSession(QTable, agent_role)
 end
 
 function runComparison()
-    % Esegue il test comparativo di entrambi gli agenti
     fprintf('\n--- Avvio Confronto Agenti vs. Random (1000 partite per agente) ---\n');
     num_games_compare = 1000;
 
     % Test Agente 1
     fprintf('\nFase 1/2: Test di Agente 1 (primo a muovere)...\n');
-    try, load('q_table_agent1_specialized.mat', 'QTable'); QTable1 = QTable;
+    try, loaded_data = load('q_table_agent1_final.mat'); fn = fieldnames(loaded_data); QTable1 = loaded_data.(fn{1});
     catch, error('File per Agente 1 non trovato!'); end
     wins1 = 0;
     for i = 1:num_games_compare
@@ -111,7 +120,7 @@ function runComparison()
 
     % Test Agente 2
     fprintf('Fase 2/2: Test di Agente 2 (secondo a muovere)...\n');
-    try, load('q_table_agent2_specialized.mat', 'QTable'); QTable2 = QTable;
+    try, loaded_data = load('q_table_agent2_final.mat'); fn = fieldnames(loaded_data); QTable2 = loaded_data.(fn{1});
     catch, error('File per Agente 2 non trovato!'); end
     wins2 = 0;
     for i = 1:num_games_compare
@@ -120,14 +129,11 @@ function runComparison()
     end
     win_rate2 = (wins2 / num_games_compare) * 100;
 
-    % Stampa risultati finali del confronto
     fprintf('\n\n--- RISULTATI CONFRONTO FINALE ---\n');
     fprintf('Agente 1 (vs Random, come P1): %.2f%% di vittorie\n', win_rate1);
     fprintf('Agente 2 (vs Random, come P2): %.2f%% di vittorie\n', win_rate2);
     fprintf('--------------------------------------\n');
 end
-
-%% --- Funzioni Locali di Gioco e Grafici ---
 
 function [winner, board] = playSingleGame(QTable, agent_role)
     board = createBoard(); done = false; turn = 1;

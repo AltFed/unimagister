@@ -48,9 +48,9 @@ fprintf('Ciclo di addestramento completato in %.2f minuti.\n', toc/60);
 fprintf('Salvataggio dei nuovi pesi...\n');
 
 QTable_agent1 = QTable_agent1_updated;
-save('q_table_agent1_final.mat', 'QTable_agent1');
+save('q_table_agent1_final.mat', 'QTable_agent1', '-v7.3');
 
 QTable_agent2 = QTable_agent2_updated;
-save('q_table_agent2_final.mat', 'QTable_agent2');
+save('q_table_agent2_final.mat', 'QTable_agent2', '-v7.3');
 
 fprintf('\nfile aggiornati con successo\n');
